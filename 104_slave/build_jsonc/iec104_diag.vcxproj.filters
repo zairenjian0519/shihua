@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\tools\iec104_diag.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\project\中石化-四化协议\proj\104_slave\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{CBE8EDBA-5714-3A54-9458-779292BA281B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

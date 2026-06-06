@@ -1,0 +1,10 @@
+# CMake generation dependency list for this directory.
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckCCompilerFlag.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckCXXCompilerFlag.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckCXXSourceCompiles.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/GenerateExportHeader.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/Internal/CheckCompilerFlag.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/Internal/CheckSourceCompiles.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/exportheader.cmake.in
+D:/project/中石化-四化协议/proj/lib60870-master/lib60870-C/src/CMakeLists.txt
+D:/project/中石化-四化协议/proj/lib60870-master/lib60870-C/src/version.rc.in

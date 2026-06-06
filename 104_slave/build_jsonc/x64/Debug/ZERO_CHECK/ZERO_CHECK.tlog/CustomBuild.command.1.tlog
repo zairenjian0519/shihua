@@ -1,0 +1,10 @@
+^D:\PROJECT\中石化-四化协议\PROJ\104_SLAVE\BUILD_JSONC\CMAKEFILES\6E0E6863D3E6C9A389F2D7625D8C450B\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/project/中石化-四化协议/proj/104_slave -BD:/project/中石化-四化协议/proj/104_slave/build_jsonc --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/project/中石化-四化协议/proj/104_slave/build_jsonc/iec104_slave.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

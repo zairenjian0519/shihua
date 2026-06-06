@@ -1,0 +1,410 @@
+Performing C SOURCE FILE Test SUPPORT_REDUNDANT_DECLS failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_bcee3.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D SUPPORT_REDUNDANT_DECLS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_bcee3.dir\Debug\\" /Fd"cmTC_bcee3.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /errorReport:queue  -Wredundant-decls "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c"
+cl : 鍛戒护琛?error D8021: 鏃犳晥鐨勬暟鍊煎弬鏁扳€?Wredundant-decls鈥?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_bcee3.vcxproj]
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_HAS_DEPRECATED_ATTR failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_749e2.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  src.cxx
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D COMPILER_HAS_DEPRECATED_ATTR /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_749e2.dir\Debug\\" /Fd"cmTC_749e2.dir\Debug\vc142.pdb" /external:W3 /Gd /TP /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.cxx"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.cxx(1,16): error C2065: 鈥淿_deprecated__鈥? 鏈０鏄庣殑鏍囪瘑绗?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_749e2.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.cxx(1,31): error C4430: 缂哄皯绫诲瀷璇存槑绗?- 鍋囧畾涓?int銆傛敞鎰? C++ 涓嶆敮鎸侀粯璁?int [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_749e2.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.cxx(1,33): error C2062: 鎰忓鐨勭被鍨嬧€渋nt鈥?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_749e2.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.cxx(1,48): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€渰鈥濈殑鍓嶉潰) [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_749e2.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.cxx(1,48): error C2447: 鈥渰鈥? 缂哄皯鍑芥暟鏍囬(鏄惁鏄€佸紡鐨勫舰寮忚〃?) [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_749e2.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.cxx(2,25): error C3861: 鈥渟omefunc鈥? 鎵句笉鍒版爣璇嗙 [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_749e2.vcxproj]
+
+
+Source file was:
+__attribute__((__deprecated__)) int somefunc() { return 0; }
+    int main() { return somefunc();}
+Determining if the include file strings.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_fc5ca.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_fc5ca.dir\Debug\\" /Fd"cmTC_fc5ca.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渟trings.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_fc5ca.vcxproj]
+
+
+
+Determining if the include file syslog.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_7f9c7.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_7f9c7.dir\Debug\\" /Fd"cmTC_7f9c7.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渟yslog.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_7f9c7.vcxproj]
+
+
+
+Determining if the include file unistd.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_e228d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e228d.dir\Debug\\" /Fd"cmTC_e228d.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渦nistd.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_e228d.vcxproj]
+
+
+
+Determining if the include file sys/resource.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_42aa3.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_42aa3.dir\Debug\\" /Fd"cmTC_42aa3.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渟ys/resource.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_42aa3.vcxproj]
+
+
+
+Determining if the include file dlfcn.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_3e715.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_3e715.dir\Debug\\" /Fd"cmTC_3e715.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渄lfcn.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_3e715.vcxproj]
+
+
+
+Determining if the include file endian.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_6a3e2.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_6a3e2.dir\Debug\\" /Fd"cmTC_6a3e2.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渆ndian.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_6a3e2.vcxproj]
+
+
+
+Determining if the include file sys/cdefs.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_e9315.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e9315.dir\Debug\\" /Fd"cmTC_e9315.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渟ys/cdefs.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_e9315.vcxproj]
+
+
+
+Determining if the include file sys/param.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_d6346.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_d6346.dir\Debug\\" /Fd"cmTC_d6346.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渟ys/param.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_d6346.vcxproj]
+
+
+
+Determining if the include file sys/random.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_0ae9b.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_0ae9b.dir\Debug\\" /Fd"cmTC_0ae9b.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渟ys/random.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_0ae9b.vcxproj]
+
+
+
+Determining if the include file xlocale.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_7184a.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_7184a.dir\Debug\\" /Fd"cmTC_7184a.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渪locale.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_7184a.vcxproj]
+
+
+
+Determining if the _doprnt exist failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_08391.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckSymbolExists.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_08391.dir\Debug\\" /Fd"cmTC_08391.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c(8,26): error C2065: 鈥淿doprnt鈥? 鏈０鏄庣殑鏍囪瘑绗?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_08391.vcxproj]
+
+
+File D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <stdio.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef _doprnt
+  return ((int*)(&_doprnt))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the vasprintf exist failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_84e2f.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckSymbolExists.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_84e2f.dir\Debug\\" /Fd"cmTC_84e2f.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c(8,28): error C2065: 鈥渧asprintf鈥? 鏈０鏄庣殑鏍囪瘑绗?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_84e2f.vcxproj]
+
+
+File D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <stdio.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef vasprintf
+  return ((int*)(&vasprintf))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the arc4random exist failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_7e6a1.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckSymbolExists.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_7e6a1.dir\Debug\\" /Fd"cmTC_7e6a1.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c(8,29): error C2065: 鈥渁rc4random鈥? 鏈０鏄庣殑鏍囪瘑绗?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_7e6a1.vcxproj]
+
+
+File D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <stdlib.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef arc4random
+  return ((int*)(&arc4random))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the include file bsd/stdlib.h exists failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_36a22.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckIncludeFile.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_36a22.dir\Debug\\" /Fd"cmTC_36a22.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckIncludeFile.c(1,10): fatal error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥渂sd/stdlib.h鈥? No such file or directory [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_36a22.vcxproj]
+
+
+
+Determining if the open exist failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_a68e3.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckSymbolExists.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_a68e3.dir\Debug\\" /Fd"cmTC_a68e3.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c(8,23): error C2065: 鈥渙pen鈥? 鏈０鏄庣殑鏍囪瘑绗?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_a68e3.vcxproj]
+
+
+File D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <fcntl.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef open
+  return ((int*)(&open))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the uselocale exist failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_e7b6d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckSymbolExists.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e7b6d.dir\Debug\\" /Fd"cmTC_e7b6d.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c(8,28): error C2065: 鈥渦selocale鈥? 鏈０鏄庣殑鏍囪瘑绗?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_e7b6d.vcxproj]
+
+
+File D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <locale.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef uselocale
+  return ((int*)(&uselocale))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the duplocale exist failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_3a5f8.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  CheckSymbolExists.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_3a5f8.dir\Debug\\" /Fd"cmTC_3a5f8.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\CheckSymbolExists.c(8,28): error C2065: 鈥渄uplocale鈥? 鏈０鏄庣殑鏍囪瘑绗?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_3a5f8.vcxproj]
+
+
+File D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <locale.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef duplocale
+  return ((int*)(&duplocale))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Performing C SOURCE FILE Test HAS_GNU_WARNING_LONG failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_5d0df.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  src.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D HAS_GNU_WARNING_LONG /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_5d0df.dir\Debug\\" /Fd"cmTC_5d0df.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c(3,9): error C2001: 甯搁噺涓湁鎹㈣绗?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_5d0df.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c(3,9): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€滃瓧绗︿覆鈥濈殑鍓嶉潰) [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_5d0df.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c(3,9): error C2143: 璇硶閿欒: 缂哄皯鈥渰鈥?鍦ㄢ€滃瓧绗︿覆鈥濈殑鍓嶉潰) [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_5d0df.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c(3,9): error C2059: 璇硶閿欒:鈥滃瓧绗︿覆鈥?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_5d0df.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c(5,7): error C2001: 甯搁噺涓湁鎹㈣绗?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_5d0df.vcxproj]
+
+
+Source file was:
+
+extern void json_object_get();
+__asm__(".section .gnu.json_object_get
+	.ascii "Please link against libjson-c instead of libjson"
+	.text");
+int main(int c, char *v) { return 0;}
+
+Performing C SOURCE FILE Test HAVE_ATOMIC_BUILTINS failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_7cf23.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  src.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D HAVE_ATOMIC_BUILTINS /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_7cf23.dir\Debug\\" /Fd"cmTC_7cf23.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c(1,52): warning C4013: 鈥淿_sync_add_and_fetch鈥濇湭瀹氫箟锛涘亣璁惧閮ㄨ繑鍥?int [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_7cf23.vcxproj]
+src.obj : error LNK2019: 鏃犳硶瑙ｆ瀽鐨勫閮ㄧ鍙?__sync_add_and_fetch锛屽嚱鏁?main 涓紩鐢ㄤ簡璇ョ鍙?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_7cf23.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\Debug\cmTC_7cf23.exe : fatal error LNK1120: 1 涓棤娉曡В鏋愮殑澶栭儴鍛戒护 [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_7cf23.vcxproj]
+
+
+Source file was:
+int main() { int i, x = 0; i = __sync_add_and_fetch(&x,1); return x; }
+Performing C SOURCE FILE Test HAVE___THREAD failed with the following output:
+Change Dir: D:/project/中石化-四化协议/proj/104_slave/build_jsonc/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe cmTC_d0ed2.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m && 鐢ㄤ簬 .NET Framework 鐨?Microsoft (R) 鐢熸垚寮曟搸鐗堟湰 16.11.2+f32259642
+鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+
+  鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.29.30143 鐗?
+  鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+  src.c
+  cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D WIN32 /D _WINDOWS /D HAVE___THREAD /D _CRT_SECURE_NO_DEPRECATE /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_d0ed2.dir\Debug\\" /Fd"cmTC_d0ed2.dir\Debug\vc142.pdb" /external:W3 /Gd /TC /wd4996 /errorReport:queue "D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c"
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c(1,14): error C2054: 鍦ㄢ€淿_thread鈥濅箣鍚庡簲杈撳叆鈥?鈥?[D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_d0ed2.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c(1,16): error C2085: 鈥渪鈥? 涓嶅湪褰㈠弬琛ㄤ腑 [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_d0ed2.vcxproj]
+D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\src.c(1,16): error C2143: 璇硶閿欒: 缂哄皯鈥?鈥?鍦ㄢ€?鈥濈殑鍓嶉潰) [D:\project\涓煶鍖?鍥涘寲鍗忚\proj\104_slave\build_jsonc\CMakeFiles\CMakeTmp\cmTC_d0ed2.vcxproj]
+
+
+Source file was:
+__thread int x = 0; int main() { return 0; }

@@ -1,0 +1,33 @@
+# CMake generation dependency list for this directory.
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CMakeConfigurableFile.in
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CMakePackageConfigHelpers.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CPack.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CPackComponent.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CTest.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CTestTargets.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CTestUseLaunchers.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckCSourceCompiles.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckIncludeFile.c.in
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckIncludeFile.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckIncludeFileCXX.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckIncludeFiles.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckSymbolExists.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckTypeSize.c.in
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/CheckTypeSize.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/DartConfiguration.tcl.in
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/GNUInstallDirs.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Modules/WriteBasicConfigVersionFile.cmake
+C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.20/Templates/CPackConfig.cmake.in
+D:/project/中石化-四化协议/proj/104_slave/build/CMakeFiles/CheckIncludeFiles/STDC_HEADERS.c
+D:/project/中石化-四化协议/proj/104_slave/build/CMakeFiles/CheckTypeSize/SIZEOF_INT.c
+D:/project/中石化-四化协议/proj/104_slave/build/CMakeFiles/CheckTypeSize/SIZEOF_INT64_T.c
+D:/project/中石化-四化协议/proj/104_slave/build/CMakeFiles/CheckTypeSize/SIZEOF_LONG.c
+D:/project/中石化-四化协议/proj/104_slave/build/CMakeFiles/CheckTypeSize/SIZEOF_LONG_LONG.c
+D:/project/中石化-四化协议/proj/104_slave/build/CMakeFiles/CheckTypeSize/SIZEOF_SIZE_T.c
+D:/project/中石化-四化协议/proj/104_slave/build/CMakeFiles/CheckTypeSize/SIZEOF_SSIZE_T.c
+D:/project/中石化-四化协议/proj/json-c-master/CMakeLists.txt
+D:/project/中石化-四化协议/proj/json-c-master/cmake/Config.cmake.in
+D:/project/中石化-四化协议/proj/json-c-master/cmake/config.h.in
+D:/project/中石化-四化协议/proj/json-c-master/cmake/json_config.h.in
+D:/project/中石化-四化协议/proj/json-c-master/json-c.pc.in
+D:/project/中石化-四化协议/proj/json-c-master/json.h.cmakein

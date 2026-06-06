@@ -1,0 +1,6 @@
+2026-06-05 12:41:06 info  [config] loaded by json-c after JSON5 preprocessing
+2026-06-05 12:41:06 info  [config] listen 0.0.0.0:2404 ca=1 max_open_connections=1
+2026-06-05 12:41:06 info  [iec104] server started on 0.0.0.0:2404
+2026-06-05 12:41:06 info  [client] worker thread started
+2026-06-05 12:41:06 info  [shm] refresh thread started interval_ms=10002026-06-05 12:41:06 info  [report] 
+scheduler thread started interval_ms=2000

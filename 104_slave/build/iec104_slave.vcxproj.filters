@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\config.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\active_upload.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\client_context.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\diag_server.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\log.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\point_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\asdu_builder.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\command_handler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\custom_asdu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\soe_history.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\report_scheduler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\shm_adapter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\104_slave\src\iec104_server.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\project\中石化-四化协议\proj\104_slave\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{ED00A542-A4C9-36CC-851D-5F45CB57E2B2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

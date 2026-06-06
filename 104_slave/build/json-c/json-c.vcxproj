@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{255564A6-AB8D-3C10-B4B1-09DDFC78CB0D}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>json-c</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\project\中石化-四化协议\proj\104_slave\build\json-c\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">json-c.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">json-c</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\project\中石化-四化协议\proj\104_slave\build\json-c\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">json-c.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">json-c</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\project\中石化-四化协议\proj\104_slave\build\json-c\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">json-c.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">json-c</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\project\中石化-四化协议\proj\104_slave\build\json-c\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">json-c.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">json-c</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4100;4996;4244;4706;4702;4127;4701</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;EBUG;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;EBUG;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4100;4996;4244;4706;4702;4127;4701</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;EBUG;NDEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;EBUG;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4100;4996;4244;4706;4702;4127;4701</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;EBUG;NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;EBUG;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4100;4996;4244;4706;4702;4127;4701</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;EBUG;NDEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;EBUG;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\project\中石化-四化协议\proj\json-c-master;D:\project\中石化-四化协议\proj\104_slave\build\json-c;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\project\中石化-四化协议\proj\json-c-master\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/project/中石化-四化协议/proj/json-c-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/project/中石化-四化协议/proj/104_slave -BD:/project/中石化-四化协议/proj/104_slave/build --check-stamp-file D:/project/中石化-四化协议/proj/104_slave/build/json-c/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeConfigurableFile.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CPack.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CPackComponent.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTest.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTestTargets.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTestUseLaunchers.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckCSourceCompiles.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFile.c.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFileCXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFiles.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckSymbolExists.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckTypeSize.c.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckTypeSize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\DartConfiguration.tcl.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\GNUInstallDirs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Templates\CPackConfig.cmake.in;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckIncludeFiles\STDC_HEADERS.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_INT.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_INT64_T.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_LONG.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_LONG_LONG.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_SIZE_T.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_SSIZE_T.c;D:\project\中石化-四化协议\proj\json-c-master\cmake\Config.cmake.in;D:\project\中石化-四化协议\proj\json-c-master\cmake\config.h.in;D:\project\中石化-四化协议\proj\json-c-master\cmake\json_config.h.in;D:\project\中石化-四化协议\proj\json-c-master\json-c.pc.in;D:\project\中石化-四化协议\proj\json-c-master\json.h.cmakein;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\project\中石化-四化协议\proj\104_slave\build\json-c\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/project/中石化-四化协议/proj/json-c-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/project/中石化-四化协议/proj/104_slave -BD:/project/中石化-四化协议/proj/104_slave/build --check-stamp-file D:/project/中石化-四化协议/proj/104_slave/build/json-c/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeConfigurableFile.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CPack.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CPackComponent.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTest.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTestTargets.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTestUseLaunchers.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckCSourceCompiles.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFile.c.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFileCXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFiles.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckSymbolExists.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckTypeSize.c.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckTypeSize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\DartConfiguration.tcl.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\GNUInstallDirs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Templates\CPackConfig.cmake.in;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckIncludeFiles\STDC_HEADERS.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_INT.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_INT64_T.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_LONG.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_LONG_LONG.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_SIZE_T.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_SSIZE_T.c;D:\project\中石化-四化协议\proj\json-c-master\cmake\Config.cmake.in;D:\project\中石化-四化协议\proj\json-c-master\cmake\config.h.in;D:\project\中石化-四化协议\proj\json-c-master\cmake\json_config.h.in;D:\project\中石化-四化协议\proj\json-c-master\json-c.pc.in;D:\project\中石化-四化协议\proj\json-c-master\json.h.cmakein;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\project\中石化-四化协议\proj\104_slave\build\json-c\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/project/中石化-四化协议/proj/json-c-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/project/中石化-四化协议/proj/104_slave -BD:/project/中石化-四化协议/proj/104_slave/build --check-stamp-file D:/project/中石化-四化协议/proj/104_slave/build/json-c/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeConfigurableFile.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CPack.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CPackComponent.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTest.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTestTargets.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTestUseLaunchers.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckCSourceCompiles.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFile.c.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFileCXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFiles.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckSymbolExists.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckTypeSize.c.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckTypeSize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\DartConfiguration.tcl.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\GNUInstallDirs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Templates\CPackConfig.cmake.in;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckIncludeFiles\STDC_HEADERS.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_INT.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_INT64_T.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_LONG.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_LONG_LONG.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_SIZE_T.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_SSIZE_T.c;D:\project\中石化-四化协议\proj\json-c-master\cmake\Config.cmake.in;D:\project\中石化-四化协议\proj\json-c-master\cmake\config.h.in;D:\project\中石化-四化协议\proj\json-c-master\cmake\json_config.h.in;D:\project\中石化-四化协议\proj\json-c-master\json-c.pc.in;D:\project\中石化-四化协议\proj\json-c-master\json.h.cmakein;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\project\中石化-四化协议\proj\104_slave\build\json-c\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/project/中石化-四化协议/proj/json-c-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/project/中石化-四化协议/proj/104_slave -BD:/project/中石化-四化协议/proj/104_slave/build --check-stamp-file D:/project/中石化-四化协议/proj/104_slave/build/json-c/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakeConfigurableFile.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CPack.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CPackComponent.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTest.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTestTargets.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CTestUseLaunchers.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckCSourceCompiles.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFile.c.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFile.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFileCXX.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckIncludeFiles.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckSymbolExists.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckTypeSize.c.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\CheckTypeSize.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\DartConfiguration.tcl.in;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\GNUInstallDirs.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.20\Templates\CPackConfig.cmake.in;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckIncludeFiles\STDC_HEADERS.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_INT.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_INT64_T.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_LONG.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_LONG_LONG.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_SIZE_T.c;D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\CheckTypeSize\SIZEOF_SSIZE_T.c;D:\project\中石化-四化协议\proj\json-c-master\cmake\Config.cmake.in;D:\project\中石化-四化协议\proj\json-c-master\cmake\config.h.in;D:\project\中石化-四化协议\proj\json-c-master\cmake\json_config.h.in;D:\project\中石化-四化协议\proj\json-c-master\json-c.pc.in;D:\project\中石化-四化协议\proj\json-c-master\json.h.cmakein;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\project\中石化-四化协议\proj\104_slave\build\json-c\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\arraylist.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\debug.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_c_version.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_object.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_object_iterator.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_tokener.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_util.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_visit.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\linkhash.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\printbuf.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\random_seed.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\strerror_override.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_pointer.c" />
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_patch.c" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\104_slave\build\json-c\json_config.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\104_slave\build\json-c\json.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\arraylist.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\debug.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_c_version.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_inttypes.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_object.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_object_iterator.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_tokener.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_types.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_util.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_visit.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\linkhash.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\printbuf.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_object_private.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_pointer_private.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\random_seed.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\strerror_override.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\math_compat.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\snprintf_compat.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\strdup_compat.h" />
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\vasprintf_compat.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\project\中石化-四化协议\proj\104_slave\build\ZERO_CHECK.vcxproj">
+      <Project>{69306622-FB63-31CA-A3D1-FCFC39D115C9}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

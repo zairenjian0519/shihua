@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\project\中石化-四化协议\proj\104_slave\build\CMakeFiles\c12b3d9d1d8df12dce1d54da1c2f787b\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{4A6C7CF3-7A00-34C0-B846-13AA78C94F96}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

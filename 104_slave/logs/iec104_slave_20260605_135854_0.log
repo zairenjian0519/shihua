@@ -1,0 +1,5 @@
+2026-06-05 13:58:54 info  [iec104] server started on 0.0.0.0:2404
+2026-06-05 13:58:54 info  [client] worker thread started
+2026-06-05 13:58:54 info  [shm] shared memory adapter opened in stub mode
+2026-06-05 13:58:54 info  [shm] refresh thread started interval_ms=1000
+2026-06-05 13:58:54 info  [report] scheduler thread started scan_ms=1000 periodic_ms=2000

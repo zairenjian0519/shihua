@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\arraylist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\debug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_c_version.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_object.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_object_iterator.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_tokener.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_util.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_visit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\linkhash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\printbuf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\random_seed.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\strerror_override.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_pointer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\中石化-四化协议\proj\json-c-master\json_patch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\104_slave\build_jsonc\json-c\json_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\104_slave\build_jsonc\json-c\json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\arraylist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_c_version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_inttypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_object_iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_tokener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_visit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\linkhash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\printbuf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_object_private.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\json_pointer_private.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\random_seed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\strerror_override.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\math_compat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\snprintf_compat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\strdup_compat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\project\中石化-四化协议\proj\json-c-master\vasprintf_compat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\project\中石化-四化协议\proj\json-c-master\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{787A01CB-5F71-3287-86F2-4BF5169D0214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{CBE8EDBA-5714-3A54-9458-779292BA281B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

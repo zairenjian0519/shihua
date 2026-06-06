@@ -1,0 +1,381 @@
+{
+  // IEC104 slave 配置文件。当前文件使用 JSON5 风格注释，不再是严格 JSON。
+  iec104: {
+    // IEC 60870-5-104 协议通信相关配置。
+    server: {
+      // 是否启用 IEC104 从站服务。
+      enabled: true,
+
+      // 本地监听 IP；0.0.0.0 表示监听所有网卡。
+      local_ip: "0.0.0.0",
+
+      // IEC104 TCP 监听端口，标准端口通常为 2404。
+      local_port: 2404,
+
+      // 公共地址 CA，也就是本站地址，需与主站配置一致。
+      common_address: 1,
+
+      // 允许同时接入的最大主站连接数。
+      max_open_connections: 1,
+
+      // lib60870 从站模式。
+      // single_redundancy_group 表示单冗余组，同一时间仅一个活动主站。
+      server_mode: "single_redundancy_group",
+    },
+
+    // IEC104 APCI 链路控制参数。
+    apci: {
+      // 发送窗口大小，最多允许连续发送 12 个未确认 I 帧。
+      k: 12,
+
+      // 接收确认阈值，收到 8 个 I 帧后发送 S 帧确认。
+      w: 8,
+
+      // 建立 TCP/IEC104 连接超时时间，单位秒。
+      t0_seconds: 10,
+
+      // 发送 I 帧或 U 帧后等待确认的超时时间，单位秒。
+      t1_seconds: 15,
+
+      // 收到 I 帧后延迟确认的最大时间，单位秒。
+      t2_seconds: 10,
+
+      // 链路空闲测试周期，超时发送 TESTFR 保活，单位秒。
+      t3_seconds: 20,
+    },
+
+    // CS101/CS104 应用层 ASDU 编码参数。
+    application_layer: {
+      // TypeID 类型标识长度，IEC104 通常固定为 1 字节。
+      size_of_type_id: 1,
+
+      // VSQ 可变结构限定词长度，通常固定为 1 字节。
+      size_of_vsq: 1,
+
+      // COT 传送原因长度，IEC104 常用 2 字节，包含 OA。
+      size_of_cot: 2,
+
+      // OA 源发地址，通常为 0。
+      originator_address: 0,
+
+      // CA 公共地址字段长度，IEC104 常用 2 字节。注意这不是 CA 值。
+      size_of_ca: 2,
+
+      // IOA 信息对象地址长度，IEC104 常用 3 字节。
+      size_of_ioa: 3,
+
+      // IEC104 单个 ASDU 最大长度，通常为 249 字节。
+      max_size_of_asdu: 249,
+    },
+
+    report: {
+      // Enable periodic shared-memory/point-table refresh.
+      scan_enabled: false,
+
+      // Enable active upload detection and dispatch.
+      active_upload_enabled: false,
+
+      // Enable periodic YC upload inside active upload detection.
+      periodic_enabled: false,
+
+      // Shared-memory/point-table refresh and active-upload detection interval.
+      scan_interval_ms: 1000,
+
+      // Periodic YC upload interval.
+      periodic_interval_ms: 2000,
+    },
+
+    // 日志配置。
+    log: {
+      // 是否启用日志。
+      enabled: true,
+
+      // 日志级别，可选：trace/debug/info/warn/error/fatal。
+      level: "info",
+
+      // 日志文件基础名称。实际文件名会追加开始记录时间戳和序号。
+      file_name: "logs/iec104_slave.log",
+
+      // 日志文件记录个数，默认为 2 个。达到个数上限后覆盖最旧日志文件。
+      file_count: 2,
+
+      // 每个日志文件的限制大小，单位字节。
+      max_file_size_bytes: 10485760,
+
+      // 日志文件名是否追加开始记录时间戳。
+      append_start_timestamp: true,
+
+      // 日志文件名时间戳格式。
+      timestamp_format: "yyyyMMdd_HHmmss",
+
+      // 达到文件大小上限后的处理策略。overwrite_oldest 表示覆盖旧日志文件。
+      rotate_policy: "overwrite_oldest",
+    },
+
+    // 历史 SOE 存储约束，用于遥信变位事件缓存、断链补发和程序重启恢复。
+    soe_history: {
+      // 是否启用历史 SOE 缓存。
+      enabled: true,
+
+      // 历史 SOE 存储方式。
+      storage: {
+        // 存储结构类型，ring_buffer 表示环形缓存。
+        type: "ring_buffer",
+
+        // 是否将历史 SOE 落盘保存，防止程序重启后事件丢失。
+        persist_to_file: true,
+
+        // 历史 SOE 落盘文件路径。
+        file: "data/soe_history.dat",
+      },
+
+      // 历史 SOE 保留条件，满足时间或条数上限时触发清理。
+      retention: {
+        // SOE 最长保留时间，单位小时。超过该时间的历史 SOE 可清理。
+        max_age_hours: 72,
+
+        // SOE 最大保留条数。超过上限时按 overflow_policy 处理。
+        max_records: 10000,
+      },
+
+      // 超出最大条数时的处理策略。drop_oldest 表示丢弃最老事件，保留最新事件。
+      overflow_policy: "drop_oldest",
+
+      // 历史 SOE 刷盘周期，单位毫秒。
+      flush_interval_ms: 5000,
+
+      // 程序启动时是否加载落盘历史 SOE。
+      load_on_startup: true,
+
+      // 历史 SOE 成功补发后是否立即删除。false 表示仍按保留策略保存。
+      clear_after_successful_upload: false,
+    },
+  },
+
+  // 104 点表配置，包括地址规划、各类点默认参数和具体点项。
+  point_table: {
+    // 104 点表地址规划。
+    address_plan: {
+      // 点表所属公共地址 CA，应与 iec104.server.common_address 保持一致。
+      common_address: 1,
+
+      // 各类点的 IOA 地址段。每类点可配置多个自定义地址段。
+      ioa_ranges: {
+        // 遥信地址段。
+        yx: [
+          {
+            // 地址段名称，仅用于配置说明和校验日志。
+            name: "油井遥信段",
+
+            // 该地址段起始 IOA。
+            start: 1,
+
+            // 该地址段结束 IOA。
+            end: 999,
+          },
+          {
+            name: "站控遥信段",
+            start: 1000,
+            end: 1999,
+          },
+          {
+            name: "自定义遥信段",
+            start: 9000,
+            end: 9999,
+          },
+        ],
+
+        // 遥测地址段。
+        yc: [
+          {
+            name: "油井遥测段",
+            start: 10001,
+            end: 14999,
+          },
+          {
+            name: "站控遥测段",
+            start: 15000,
+            end: 17999,
+          },
+          {
+            name: "自定义遥测段",
+            start: 19000,
+            end: 19999,
+          },
+        ],
+
+        // 遥控地址段。
+        yk: [
+          {
+            name: "油井遥控段",
+            start: 20001,
+            end: 24999,
+          },
+          {
+            name: "自定义遥控段",
+            start: 29000,
+            end: 29999,
+          },
+        ],
+
+        // 遥调地址段。
+        yt: [
+          {
+            name: "油井遥调段",
+            start: 30001,
+            end: 34999,
+          },
+          {
+            name: "自定义遥调段",
+            start: 39000,
+            end: 39999,
+          },
+        ],
+
+        // 电度地址段。
+        dd: [
+          {
+            name: "油井电度段",
+            start: 40001,
+            end: 44999,
+          },
+          {
+            name: "自定义电度段",
+            start: 49000,
+            end: 49999,
+          },
+        ],
+      },
+    },
+
+    // 各类点的默认配置。具体点项未配置时使用对应默认值。
+    defaults: {
+      // 遥信默认参数。
+      yx: {
+        // 默认遥信品质，0 表示有效。
+        quality: 0,
+
+        // 是否默认启用 SOE 变位事件。
+        enable_soe: true,
+
+        // 是否默认启用突发上送。
+        enable_spontaneous: true,
+      },
+
+      // 遥测默认参数。
+      yc: {
+        // 默认遥测 ASDU 类型，M_ME_NC_1 表示短浮点遥测。
+        iec104_type: "M_ME_NC_1",
+
+        // 默认遥测品质 QDS。
+        quality: 0,
+
+        // 默认遥测死区。单个遥测点不配置 deadband 时使用该值。
+        deadband: 0.1,
+
+        // 是否默认启用遥测变化上送。
+        enable_spontaneous: true,
+
+        // 是否默认参与遥测周期上送。
+        enable_periodic: true,
+      },
+
+      // 遥控默认参数。
+      yk: {
+        // 是否默认采用选择-执行机制。
+        select_before_operate: true,
+
+        // 默认选择超时时间，单位毫秒。
+        select_timeout_ms: 60000,
+      },
+
+      // 遥调默认参数。
+      yt: {
+        // 默认遥调 ASDU 类型，C_SE_NC_1 表示短浮点设点命令。
+        iec104_type: "C_SE_NC_1",
+
+        // 是否默认采用选择-执行机制。
+        select_before_operate: true,
+
+        // 默认选择超时时间，单位毫秒。
+        select_timeout_ms: 60000,
+      },
+
+      // 电度默认参数。
+      dd: {
+        // 默认电度 ASDU 类型，M_IT_TB_1 表示带 CP56Time2a 时标的累计量。
+        iec104_type: "M_IT_TB_1",
+
+        // 默认电度品质或 BCR 状态位。
+        quality: 0,
+
+        // 默认倍率。
+        scale: 1.0,
+
+        // 默认偏移量。
+        offset: 0.0,
+
+        // 是否默认参与电度周期上送。
+        enable_periodic: true,
+
+        // 是否默认响应电度召唤。
+        enable_counter_interrogation: true,
+      },
+    },
+
+    // 具体点项配置。点项中的配置优先级高于 defaults。
+    points: {
+      // 遥测点示例。
+      yc: [
+        {
+          // 104 信息对象地址 IOA。
+          ioa: 10001,
+
+          // 点名称。
+          name: "井口油压",
+
+          // 该点原始数据来源。
+          source: {
+            // 数据来源类型，modbus_tcp 表示通过 Modbus TCP 读取。
+            type: "modbus_tcp",
+
+            // Modbus 寄存器地址或共享内存偏移地址。
+            address: 100,
+
+            // 原始数据类型。
+            data_type: "float32",
+
+            // 原始数据字节序。
+            byte_order: "ABCD",
+          },
+
+          // 工程值倍率。
+          scale: 1.0,
+
+          // 工程值偏移量。
+          offset: 0.0,
+
+          // 工程单位。
+          unit: "MPa",
+        },
+        {
+          // 该点单独设置 deadband，覆盖 defaults.yc.deadband。
+          ioa: 10002,
+          name: "套压",
+          source: {
+            type: "modbus_tcp",
+            address: 102,
+            data_type: "float32",
+            byte_order: "ABCD",
+          },
+          scale: 1.0,
+          offset: 0.0,
+          unit: "MPa",
+
+          // 该遥测点专用死区，优先级高于 defaults.yc.deadband。
+          deadband: 0.05,
+        },
+      ],
+    },
+  },
+}

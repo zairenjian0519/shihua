@@ -1,0 +1,3 @@
+2026-06-05 10:47:08 info  [config] loaded by json-c after JSON5 preprocessing
+2026-06-05 10:47:08 info  [config] listen 0.0.0.0:2404 ca=1 max_open_connections=1
+2026-06-05 10:47:08 info  [iec104] server started on 0.0.0.0:2404
