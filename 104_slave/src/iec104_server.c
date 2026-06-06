@@ -26,6 +26,7 @@
 #define BUSINESS_SEND_INTERVAL_MS 50
 #define GI_SEND_INTERVAL_MS 50
 #define GI_MAX_YX_PER_FRAME 80
+#define ACTIVE_MAX_SOE_PER_FRAME 20
 #define GI_MAX_YC_SCALED_PER_FRAME 80
 #define GI_MAX_YC_SHORT_PER_FRAME 48
 #define CI_MAX_DD_PER_FRAME 80
@@ -694,44 +695,69 @@ static void send_active_upload(Iec104Server* server, ClientContext* client, cons
         return;
     }
 
-    for (size_t i = 0; i < snapshot.soe_count && client_context_is_active(client); i++) {
-        YxPoint point;
-        memset(&point, 0, sizeof(point));
-        point.ioa = snapshot.soe[i].ioa;
-        point.value = snapshot.soe[i].value;
-        point.quality = snapshot.soe[i].quality;
-        point.timestamp_ms = snapshot.soe[i].timestamp_ms;
+    for (size_t i = 0; i < snapshot.soe_count && client_context_is_active(client);) {
+        YxPoint points[ACTIVE_MAX_SOE_PER_FRAME];
+        size_t batch = 0;
+
+        while (i + batch < snapshot.soe_count && batch < ACTIVE_MAX_SOE_PER_FRAME) {
+            memset(&points[batch], 0, sizeof(points[batch]));
+            points[batch].ioa = snapshot.soe[i + batch].ioa;
+            points[batch].value = snapshot.soe[i + batch].value;
+            points[batch].quality = snapshot.soe[i + batch].quality;
+            points[batch].timestamp_ms = snapshot.soe[i + batch].timestamp_ms;
+            batch++;
+        }
 
         client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        asdu_send_yx(connection, server->al_params, 0, server->config.common_address,
-                     CS101_COT_SPONTANEOUS, &point, true);
+        asdu_send_yx_time_batch(connection, server->al_params, 0, server->config.common_address,
+                                CS101_COT_SPONTANEOUS, points, batch);
+        i += batch;
     }
 
-    for (size_t i = 0; i < snapshot.yx_count && client_context_is_active(client); i++) {
-        YxPoint point;
-        memset(&point, 0, sizeof(point));
-        point.ioa = snapshot.yx[i].ioa;
-        point.value = snapshot.yx[i].value;
-        point.quality = snapshot.yx[i].quality;
-        point.timestamp_ms = snapshot.yx[i].timestamp_ms;
+    for (size_t i = 0; i < snapshot.yx_count && client_context_is_active(client);) {
+        YxPoint points[GI_MAX_YX_PER_FRAME];
+        size_t batch = 0;
+
+        while (i + batch < snapshot.yx_count && batch < GI_MAX_YX_PER_FRAME) {
+            memset(&points[batch], 0, sizeof(points[batch]));
+            points[batch].ioa = snapshot.yx[i + batch].ioa;
+            points[batch].value = snapshot.yx[i + batch].value;
+            points[batch].quality = snapshot.yx[i + batch].quality;
+            points[batch].timestamp_ms = snapshot.yx[i + batch].timestamp_ms;
+            batch++;
+        }
 
         client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        asdu_send_yx(connection, server->al_params, 0, server->config.common_address,
-                     CS101_COT_SPONTANEOUS, &point, false);
+        asdu_send_yx_batch_non_sequence(connection, server->al_params, 0, server->config.common_address,
+                                        CS101_COT_SPONTANEOUS, points, batch);
+        i += batch;
     }
 
-    for (size_t i = 0; i < snapshot.yc_count && client_context_is_active(client); i++) {
-        YcPoint point;
-        memset(&point, 0, sizeof(point));
-        point.ioa = snapshot.yc[i].ioa;
-        point.value = snapshot.yc[i].value;
-        point.quality = snapshot.yc[i].quality;
-        point.iec_type = snapshot.yc[i].iec_type;
-        point.timestamp_ms = snapshot.yc[i].timestamp_ms;
+    for (size_t i = 0; i < snapshot.yc_count && client_context_is_active(client);) {
+        CS101_CauseOfTransmission cot = snapshot.yc[i].cot;
+        YC_IECType iec_type = snapshot.yc[i].iec_type;
+        size_t max_batch = (iec_type == YC_IEC_TYPE_SCALED) ?
+                           GI_MAX_YC_SCALED_PER_FRAME : GI_MAX_YC_SHORT_PER_FRAME;
+        YcPoint points[GI_MAX_YC_SCALED_PER_FRAME];
+        size_t batch = 0;
+
+        while (i + batch < snapshot.yc_count &&
+               batch < max_batch &&
+               snapshot.yc[i + batch].cot == cot &&
+               snapshot.yc[i + batch].iec_type == iec_type) {
+            memset(&points[batch], 0, sizeof(points[batch]));
+            points[batch].ioa = snapshot.yc[i + batch].ioa;
+            points[batch].value = snapshot.yc[i + batch].value;
+            points[batch].quality = snapshot.yc[i + batch].quality;
+            points[batch].iec_type = snapshot.yc[i + batch].iec_type;
+            points[batch].timestamp_ms = snapshot.yc[i + batch].timestamp_ms;
+            batch++;
+        }
 
         client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        asdu_send_yc(connection, server->al_params, 0, server->config.common_address,
-                     snapshot.yc[i].cot, &point);
+        asdu_send_yc_batch_non_sequence(connection, server->al_params, 0, server->config.common_address,
+                                        cot, points, batch);
+        i += batch;
     }
 
     client->last_uploaded_version = snapshot.version;

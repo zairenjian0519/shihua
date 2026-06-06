@@ -232,13 +232,8 @@ static bool handle_set_yx(DiagServer* diag, const char* command, char* response,
             point = point_table_find_yx(diag->table, ioa);
             if (point)
                 point->quality = quality;
-            copy.quality = quality;
             point_table_write_unlock(diag->table);
         }
-        active_upload_put_yx(diag->active_upload, &copy, copy.enable_soe);
-        if (copy.enable_soe)
-            soe_history_append(diag->soe_history, copy.ioa, copy.value, copy.quality, copy.timestamp_ms);
-        notify_upload(diag);
     }
 
     set_response(response, response_size, "{\"result\":\"ok\",\"message\":\"YX updated\"}");

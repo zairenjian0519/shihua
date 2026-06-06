@@ -73,7 +73,7 @@
       scan_enabled: false,
 
       // Enable active upload detection and dispatch.
-      active_upload_enabled: false,
+      active_upload_enabled: true,
 
       // Enable periodic YC upload inside active upload detection.
       periodic_enabled: false,
@@ -83,6 +83,21 @@
 
       // Periodic YC upload interval.
       periodic_interval_ms: 2000,
+    },
+
+    diag: {
+      // Enable diagnostic command service for iec104_diag.
+      enabled: true,
+
+      // Diagnostic service listen address and port.
+      bind_ip: "127.0.0.1",
+      port: 24040,
+
+      // Allow iec104_diag to modify point values.
+      writable: true,
+
+      // Keep destructive clear commands disabled by default.
+      allow_clear: false,
     },
 
     // 日志配置。

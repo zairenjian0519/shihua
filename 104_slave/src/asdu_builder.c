@@ -16,7 +16,7 @@ bool asdu_send_yx(IMasterConnection connection, CS101_AppLayerParameters params,
                   int oa, int ca, CS101_CauseOfTransmission cot, const YxPoint* point,
                   bool with_timestamp)
 {
-    CS101_ASDU asdu = CS101_ASDU_create(params, false, cot, oa, ca, false, false);
+    CS101_ASDU asdu = CS101_ASDU_create(params, true, cot, oa, ca, false, false);
     InformationObject io = NULL;
 
     if (with_timestamp) {
@@ -61,6 +61,55 @@ bool asdu_send_yx_batch(IMasterConnection connection, CS101_AppLayerParameters p
     return ok;
 }
 
+bool asdu_send_yx_batch_non_sequence(IMasterConnection connection, CS101_AppLayerParameters params,
+                                     int oa, int ca, CS101_CauseOfTransmission cot,
+                                     const YxPoint* points, size_t count)
+{
+    if (!points || count == 0)
+        return true;
+
+    CS101_ASDU asdu = CS101_ASDU_create(params, false, cot, oa, ca, false, false);
+
+    for (size_t i = 0; i < count; i++) {
+        InformationObject io = (InformationObject)SinglePointInformation_create(NULL,
+                                                                                points[i].ioa,
+                                                                                points[i].value,
+                                                                                points[i].quality);
+        CS101_ASDU_addInformationObject(asdu, io);
+        InformationObject_destroy(io);
+    }
+
+    bool ok = IMasterConnection_sendASDU(connection, asdu);
+    CS101_ASDU_destroy(asdu);
+    return ok;
+}
+
+bool asdu_send_yx_time_batch(IMasterConnection connection, CS101_AppLayerParameters params,
+                             int oa, int ca, CS101_CauseOfTransmission cot,
+                             const YxPoint* points, size_t count)
+{
+    if (!points || count == 0)
+        return true;
+
+    CS101_ASDU asdu = CS101_ASDU_create(params, false, cot, oa, ca, false, false);
+
+    for (size_t i = 0; i < count; i++) {
+        struct sCP56Time2a timestamp;
+        set_timestamp(&timestamp, points[i].timestamp_ms);
+        InformationObject io = (InformationObject)SinglePointWithCP56Time2a_create(NULL,
+                                                                                   points[i].ioa,
+                                                                                   points[i].value,
+                                                                                   points[i].quality,
+                                                                                   &timestamp);
+        CS101_ASDU_addInformationObject(asdu, io);
+        InformationObject_destroy(io);
+    }
+
+    bool ok = IMasterConnection_sendASDU(connection, asdu);
+    CS101_ASDU_destroy(asdu);
+    return ok;
+}
+
 bool asdu_send_yc(IMasterConnection connection, CS101_AppLayerParameters params,
                   int oa, int ca, CS101_CauseOfTransmission cot, const YcPoint* point)
 {
@@ -93,6 +142,43 @@ bool asdu_send_yc_batch(IMasterConnection connection, CS101_AppLayerParameters p
         return true;
 
     CS101_ASDU asdu = CS101_ASDU_create(params, true, cot, oa, ca, false, false);
+
+    for (size_t i = 0; i < count; i++) {
+        InformationObject io = NULL;
+
+        if (points[i].iec_type == YC_IEC_TYPE_NORMALIZED) {
+            io = (InformationObject)MeasuredValueNormalized_create(NULL, points[i].ioa,
+                                                                   points[i].value,
+                                                                   points[i].quality);
+        }
+        else if (points[i].iec_type == YC_IEC_TYPE_SCALED) {
+            io = (InformationObject)MeasuredValueScaled_create(NULL, points[i].ioa,
+                                                               (int)points[i].value,
+                                                               points[i].quality);
+        }
+        else {
+            io = (InformationObject)MeasuredValueShort_create(NULL, points[i].ioa,
+                                                              points[i].value,
+                                                              points[i].quality);
+        }
+
+        CS101_ASDU_addInformationObject(asdu, io);
+        InformationObject_destroy(io);
+    }
+
+    bool ok = IMasterConnection_sendASDU(connection, asdu);
+    CS101_ASDU_destroy(asdu);
+    return ok;
+}
+
+bool asdu_send_yc_batch_non_sequence(IMasterConnection connection, CS101_AppLayerParameters params,
+                                     int oa, int ca, CS101_CauseOfTransmission cot,
+                                     const YcPoint* points, size_t count)
+{
+    if (!points || count == 0)
+        return true;
+
+    CS101_ASDU asdu = CS101_ASDU_create(params, false, cot, oa, ca, false, false);
 
     for (size_t i = 0; i < count; i++) {
         InformationObject io = NULL;
