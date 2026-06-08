@@ -100,6 +100,33 @@
       allow_clear: false,
     },
 
+    mysql: {
+      // Enable MySQL/MariaDB historical SOE storage.
+      enabled: true,
+      host: "192.168.159.209",
+      port: 3306,
+      user: "iec104",
+      password: "iec104_pwd",
+      database: "iec104_history",
+      charset: "utf8mb4",
+      connect_timeout_ms: 3000,
+      ssl_verify_server_cert: false,
+    },
+
+    history_storage: {
+      soe: {
+        enabled: true,
+        table: "iec104_soe_history",
+        max_records: 10000,
+      },
+      query: {
+        max_records_per_call: 256,
+      },
+      db_queue: {
+        capacity: 4096,
+      },
+    },
+
     // 日志配置。
     log: {
       // 是否启用日志。

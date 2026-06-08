@@ -427,6 +427,11 @@ static bool load_with_json_c(const char* path, const char* source_text, Iec104Co
     json_object* report = json_get_obj(iec104, "report");
     json_object* log = json_get_obj(iec104, "log");
     json_object* diag = json_get_obj(iec104, "diag");
+    json_object* mysql = json_get_obj(iec104, "mysql");
+    json_object* history_storage = json_get_obj(iec104, "history_storage");
+    json_object* history_soe = json_get_obj(history_storage, "soe");
+    json_object* history_query = json_get_obj(history_storage, "query");
+    json_object* history_db_queue = json_get_obj(history_storage, "db_queue");
     if (!diag)
         diag = json_get_obj(iec104, "diagnostic");
     if (!diag)
@@ -472,6 +477,22 @@ static bool load_with_json_c(const char* path, const char* source_text, Iec104Co
     json_read_bool(diag, "writable", &config->diag_writable);
     json_read_bool(diag, "allow_clear", &config->diag_allow_clear);
 
+    json_read_bool(mysql, "enabled", &config->mysql_enabled);
+    json_read_string(mysql, "host", config->mysql_host, sizeof(config->mysql_host));
+    json_read_int(mysql, "port", &config->mysql_port);
+    json_read_string(mysql, "user", config->mysql_user, sizeof(config->mysql_user));
+    json_read_string(mysql, "password", config->mysql_password, sizeof(config->mysql_password));
+    json_read_string(mysql, "database", config->mysql_database, sizeof(config->mysql_database));
+    json_read_string(mysql, "charset", config->mysql_charset, sizeof(config->mysql_charset));
+    json_read_int(mysql, "connect_timeout_ms", &config->mysql_connect_timeout_ms);
+    json_read_bool(mysql, "ssl_verify_server_cert", &config->mysql_ssl_verify_server_cert);
+
+    json_read_bool(history_soe, "enabled", &config->history_soe_enabled);
+    json_read_string(history_soe, "table", config->history_soe_table, sizeof(config->history_soe_table));
+    json_read_int(history_soe, "max_records", &config->history_soe_max_records);
+    json_read_int(history_query, "max_records_per_call", &config->history_query_max_records);
+    json_read_int(history_db_queue, "capacity", &config->history_db_queue_capacity);
+
     loaded = true;
 
     json_object_put(root);
@@ -513,6 +534,20 @@ void config_init_defaults(Iec104Config* config)
     config->diag_port = 24040;
     config->diag_writable = true;
     config->diag_allow_clear = false;
+    config->mysql_enabled = false;
+    snprintf(config->mysql_host, sizeof(config->mysql_host), "127.0.0.1");
+    config->mysql_port = 3306;
+    snprintf(config->mysql_user, sizeof(config->mysql_user), "iec104");
+    snprintf(config->mysql_password, sizeof(config->mysql_password), "");
+    snprintf(config->mysql_database, sizeof(config->mysql_database), "iec104_history");
+    snprintf(config->mysql_charset, sizeof(config->mysql_charset), "utf8mb4");
+    config->mysql_connect_timeout_ms = 3000;
+    config->mysql_ssl_verify_server_cert = false;
+    config->history_soe_enabled = true;
+    snprintf(config->history_soe_table, sizeof(config->history_soe_table), "iec104_soe_history");
+    config->history_soe_max_records = 10000;
+    config->history_query_max_records = 1000;
+    config->history_db_queue_capacity = 4096;
 }
 
 bool config_load_file(const char* path, Iec104Config* config)
@@ -571,6 +606,25 @@ bool config_load_file(const char* path, Iec104Config* config)
     config->diag_port = parse_int_key(text, "diag_port", config->diag_port);
     config->diag_writable = parse_bool_key(text, "writable", config->diag_writable);
     config->diag_allow_clear = parse_bool_key(text, "allow_clear", config->diag_allow_clear);
+    config->mysql_enabled = parse_bool_key(text, "mysql_enabled", config->mysql_enabled);
+    parse_string_key(text, "mysql_host", config->mysql_host, sizeof(config->mysql_host));
+    config->mysql_port = parse_int_key(text, "mysql_port", config->mysql_port);
+    parse_string_key(text, "mysql_user", config->mysql_user, sizeof(config->mysql_user));
+    parse_string_key(text, "mysql_password", config->mysql_password, sizeof(config->mysql_password));
+    parse_string_key(text, "mysql_database", config->mysql_database, sizeof(config->mysql_database));
+    parse_string_key(text, "mysql_charset", config->mysql_charset, sizeof(config->mysql_charset));
+    config->mysql_connect_timeout_ms =
+        parse_int_key(text, "mysql_connect_timeout_ms", config->mysql_connect_timeout_ms);
+    config->mysql_ssl_verify_server_cert =
+        parse_bool_key(text, "mysql_ssl_verify_server_cert", config->mysql_ssl_verify_server_cert);
+    config->history_soe_enabled = parse_bool_key(text, "history_soe_enabled", config->history_soe_enabled);
+    parse_string_key(text, "history_soe_table", config->history_soe_table, sizeof(config->history_soe_table));
+    config->history_soe_max_records =
+        parse_int_key(text, "history_soe_max_records", config->history_soe_max_records);
+    config->history_query_max_records =
+        parse_int_key(text, "history_query_max_records", config->history_query_max_records);
+    config->history_db_queue_capacity =
+        parse_int_key(text, "history_db_queue_capacity", config->history_db_queue_capacity);
 
     free(text);
 

@@ -8,6 +8,7 @@
 #include "diag_server.h"
 #include "hal_thread.h"
 #include "hal_time.h"
+#include "history_store.h"
 #include "log.h"
 #include "report_scheduler.h"
 #include "shm_adapter.h"
@@ -49,6 +50,7 @@ struct Iec104Server {
     int client_count;
     ActiveUploadArea active_upload;
     SoeHistory soe_history;
+    HistoryStore history_store;
     ShmAdapter shm;
     DiagServer diag;
     uint64_t last_soe_history_version;
@@ -59,6 +61,19 @@ struct Iec104Server {
 
 static volatile sig_atomic_t g_running = 1;
 static uint64_t g_request_id = 0;
+
+static uint64_t msg_time_to_ms(CP56Time2a time)
+{
+    if (!time)
+        return 0;
+
+    for (int i = 0; i < 7; i++) {
+        if (time->encodedValue[i] != 0)
+            return CP56Time2a_toMsTimestamp(time);
+    }
+
+    return 0;
+}
 
 static bool set_system_time_ms(uint64_t timestamp_ms)
 {
@@ -695,6 +710,26 @@ static void send_active_upload(Iec104Server* server, ClientContext* client, cons
         return;
     }
 
+	for (size_t i = 0; i < snapshot.yx_count && client_context_is_active(client);) {
+        YxPoint points[GI_MAX_YX_PER_FRAME];
+        size_t batch = 0;
+
+        while (i + batch < snapshot.yx_count && batch < GI_MAX_YX_PER_FRAME) {
+            memset(&points[batch], 0, sizeof(points[batch]));
+            points[batch].ioa = snapshot.yx[i + batch].ioa;
+            points[batch].value = snapshot.yx[i + batch].value;
+            points[batch].quality = snapshot.yx[i + batch].quality;
+            points[batch].timestamp_ms = snapshot.yx[i + batch].timestamp_ms;
+            batch++;
+        }
+
+        client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
+        asdu_send_yx_batch_non_sequence(connection, server->al_params, 0, server->config.common_address,
+                                        CS101_COT_SPONTANEOUS, points, batch);
+        i += batch;
+    }
+	
+
     for (size_t i = 0; i < snapshot.soe_count && client_context_is_active(client);) {
         YxPoint points[ACTIVE_MAX_SOE_PER_FRAME];
         size_t batch = 0;
@@ -714,25 +749,7 @@ static void send_active_upload(Iec104Server* server, ClientContext* client, cons
         i += batch;
     }
 
-    for (size_t i = 0; i < snapshot.yx_count && client_context_is_active(client);) {
-        YxPoint points[GI_MAX_YX_PER_FRAME];
-        size_t batch = 0;
-
-        while (i + batch < snapshot.yx_count && batch < GI_MAX_YX_PER_FRAME) {
-            memset(&points[batch], 0, sizeof(points[batch]));
-            points[batch].ioa = snapshot.yx[i + batch].ioa;
-            points[batch].value = snapshot.yx[i + batch].value;
-            points[batch].quality = snapshot.yx[i + batch].quality;
-            points[batch].timestamp_ms = snapshot.yx[i + batch].timestamp_ms;
-            batch++;
-        }
-
-        client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        asdu_send_yx_batch_non_sequence(connection, server->al_params, 0, server->config.common_address,
-                                        CS101_COT_SPONTANEOUS, points, batch);
-        i += batch;
-    }
-
+    
     for (size_t i = 0; i < snapshot.yc_count && client_context_is_active(client);) {
         CS101_CauseOfTransmission cot = snapshot.yc[i].cot;
         YC_IECType iec_type = snapshot.yc[i].iec_type;
@@ -838,12 +855,27 @@ static void send_custom_measure_total(Iec104Server* server, ClientContext* clien
 
 static void send_history_soe(Iec104Server* server, ClientContext* client, const Iec104WorkMsg* msg)
 {
-    SoeRecord records[64];
-    size_t count = soe_history_query(&server->soe_history, 0, 0, records,
-                                     sizeof(records) / sizeof(records[0]));
+    SoeRecord records[256];
+    uint64_t begin_ms = msg_time_to_ms((CP56Time2a)&msg->begin_time);
+    uint64_t end_ms = msg_time_to_ms((CP56Time2a)&msg->end_time);
+    size_t max_records = sizeof(records) / sizeof(records[0]);
+    size_t count = 0;
 
-    LOG_INFO("custom", "start %s type=0x%02x records=%zu request=%llu",
-             custom_type_name(msg->type_id), msg->type_id, count,
+    if (server->config.history_query_max_records > 0 &&
+        max_records > (size_t)server->config.history_query_max_records)
+        max_records = (size_t)server->config.history_query_max_records;
+
+    if (history_store_is_enabled(&server->history_store)) {
+        count = history_store_query_soe(&server->history_store, begin_ms, end_ms,
+                                        records, max_records);
+    }
+    else {
+        count = soe_history_query(&server->soe_history, begin_ms, end_ms, records, max_records);
+    }
+
+    LOG_INFO("custom", "start %s type=0x%02x begin=%llu end=%llu records=%zu request=%llu",
+             custom_type_name(msg->type_id), msg->type_id,
+             (unsigned long long)begin_ms, (unsigned long long)end_ms, count,
              (unsigned long long)msg->request_id);
 
     for (size_t i = 0; i < count && client_context_is_active(client); i++) {
@@ -1283,6 +1315,17 @@ static void* report_scheduler_thread(void* parameter)
                         soe_history_append(&server->soe_history, snapshot.soe[i].ioa,
                                            snapshot.soe[i].value, snapshot.soe[i].quality,
                                            snapshot.soe[i].timestamp_ms);
+                    for (size_t i = 0; i < snapshot.soe_count; i++) {
+                        SoeRecord record;
+                        memset(&record, 0, sizeof(record));
+                        record.ioa = snapshot.soe[i].ioa;
+                        record.value = snapshot.soe[i].value;
+                        record.quality = snapshot.soe[i].quality;
+                        record.timestamp_ms = snapshot.soe[i].timestamp_ms;
+                        record.sequence = snapshot.soe[i].sequence;
+                        history_store_append_soe(&server->history_store, &record,
+                                                 server->config.common_address);
+                    }
                     server->last_soe_history_version = snapshot.version;
                     active_upload_snapshot_destroy(&snapshot);
                 }
@@ -1538,6 +1581,11 @@ static bool asdu_handler(void* parameter, IMasterConnection connection, CS101_AS
                 payload_size = (int)sizeof(msg.payload);
             memcpy(msg.payload, payload, (size_t)payload_size);
             msg.payload_len = (uint16_t)payload_size;
+
+            if (msg.type == MSG_HISTORY_CALL && payload_size >= 17) {
+                memcpy(msg.begin_time.encodedValue, &payload[3], 7);
+                memcpy(msg.end_time.encodedValue, &payload[10], 7);
+            }
         }
 
         LOG_INFO("custom", "received %s type=0x%02x cot=0x%02x ca=%d oa=%u ioa=0x%06x payload_len=%u request=%llu",
@@ -1627,11 +1675,14 @@ bool iec104_server_init(Iec104Server** server_out, const Iec104Config* config, P
     size_t upload_yc_capacity = table->yc_count + table->yc_rtu_count +
                                 table->yc_sensor_conf_count + table->yc_custom_count;
     size_t upload_soe_capacity = table->yx_count > 4096 ? table->yx_count : 4096;
+    HistoryStoreConfig history_config;
+    history_store_config_from_iec104(config, &history_config);
 
     if (!server->clients || !server->lock || !server->slave ||
         !active_upload_init(&server->active_upload, upload_yx_capacity,
                             upload_yc_capacity, upload_soe_capacity) ||
         !soe_history_init(&server->soe_history) ||
+        !history_store_init(&server->history_store, &history_config) ||
         !shm_adapter_init(&server->shm)) {
         iec104_server_destroy(server);
         return false;
@@ -1804,6 +1855,7 @@ void iec104_server_destroy(Iec104Server* server)
 
     diag_server_destroy(&server->diag);
     shm_adapter_destroy(&server->shm);
+    history_store_destroy(&server->history_store);
     soe_history_destroy(&server->soe_history);
     active_upload_destroy(&server->active_upload);
 

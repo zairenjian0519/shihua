@@ -34,6 +34,20 @@ typedef struct {
     int diag_port;
     bool diag_writable;
     bool diag_allow_clear;
+    bool mysql_enabled;
+    char mysql_host[64];
+    int mysql_port;
+    char mysql_user[64];
+    char mysql_password[128];
+    char mysql_database[64];
+    char mysql_charset[32];
+    int mysql_connect_timeout_ms;
+    bool mysql_ssl_verify_server_cert;
+    bool history_soe_enabled;
+    char history_soe_table[64];
+    int history_soe_max_records;
+    int history_query_max_records;
+    int history_db_queue_capacity;
 } Iec104Config;
 
 void config_init_defaults(Iec104Config* config);

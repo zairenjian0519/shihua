@@ -7,10 +7,31 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(LIB60870_DIR "${CMAKE_CURRENT_LIST_DIR}/../lib60870-master/lib60870-C" CACHE PATH "Path to lib60870-C")
 set(JSON_C_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/../json-c-master" CACHE PATH "Path to json-c source tree")
+set(MARIADB_CONNECTOR_C_DIR "${CMAKE_CURRENT_LIST_DIR}/../mariadb-connector-c-3.4" CACHE PATH "Path to MariaDB Connector/C source tree")
 
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(BUILD_TESTS OFF CACHE BOOL "" FORCE)
 add_subdirectory("${LIB60870_DIR}" "${CMAKE_BINARY_DIR}/lib60870")
+
+if (EXISTS "${MARIADB_CONNECTOR_C_DIR}/CMakeLists.txt")
+    if (WIN32)
+        add_compile_definitions(WIN32_LEAN_AND_MEAN NOMINMAX)
+    endif()
+    set(WITH_UNIT_TESTS OFF CACHE BOOL "" FORCE)
+    set(WITH_DYNCOL OFF CACHE BOOL "" FORCE)
+    set(WITH_CURL OFF CACHE BOOL "" FORCE)
+    set(INSTALL_PLUGINDIR "lib/mariadb/plugin" CACHE STRING "" FORCE)
+    if (WIN32)
+        set(WITH_SSL SCHANNEL CACHE STRING "" FORCE)
+    else()
+        set(WITH_SSL OPENSSL CACHE STRING "" FORCE)
+    endif()
+    set(WITH_ICONV OFF CACHE BOOL "" FORCE)
+    add_subdirectory("${MARIADB_CONNECTOR_C_DIR}" "${CMAKE_BINARY_DIR}/mariadb-connector-c")
+    set(IEC104_MARIADB_TARGET mariadbclient)
+else()
+    message(WARNING "MariaDB Connector/C source tree was not found. MySQL history storage will not be linked.")
+endif()
 
 if (EXISTS "${JSON_C_SOURCE_DIR}/CMakeLists.txt")
     set(BUILD_APPS OFF CACHE BOOL "" FORCE)
@@ -37,6 +58,7 @@ add_executable(iec104_slave
     src/asdu_builder.c
     src/command_handler.c
     src/custom_asdu.c
+    src/history_store.c
     src/soe_history.c
     src/report_scheduler.c
     src/shm_adapter.c
@@ -49,6 +71,8 @@ add_executable(iec104_diag
 
 target_include_directories(iec104_slave PRIVATE
     include
+    "${MARIADB_CONNECTOR_C_DIR}/include"
+    "${CMAKE_BINARY_DIR}/mariadb-connector-c/include"
     "${LIB60870_DIR}/config"
     "${LIB60870_DIR}/src/inc/api"
     "${LIB60870_DIR}/src/inc/internal"
@@ -57,6 +81,11 @@ target_include_directories(iec104_slave PRIVATE
 )
 
 target_link_libraries(iec104_slave PRIVATE lib60870)
+
+if (TARGET ${IEC104_MARIADB_TARGET})
+    target_compile_definitions(iec104_slave PRIVATE HAVE_MARIADB=1)
+    target_link_libraries(iec104_slave PRIVATE ${IEC104_MARIADB_TARGET})
+endif()
 
 if (TARGET ${IEC104_JSON_C_TARGET})
     target_compile_definitions(iec104_slave PRIVATE HAVE_JSON_C=1)

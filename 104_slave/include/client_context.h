@@ -50,8 +50,8 @@ typedef struct {
     float setpoint_value;
     uint8_t setpoint_count;
     Iec104SetpointItem setpoints[IEC104_MAX_SETPOINTS_PER_ASDU];
-    CP56Time2a begin_time;
-    CP56Time2a end_time;
+    struct sCP56Time2a begin_time;
+    struct sCP56Time2a end_time;
     uint8_t payload[256];
     uint16_t payload_len;
 } Iec104WorkMsg;
