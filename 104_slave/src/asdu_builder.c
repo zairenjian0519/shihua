@@ -52,8 +52,15 @@ bool asdu_send_yx_batch(IMasterConnection connection, CS101_AppLayerParameters p
                                                                                 points[i].ioa,
                                                                                 points[i].value,
                                                                                 points[i].quality);
-        CS101_ASDU_addInformationObject(asdu, io);
+        bool added = CS101_ASDU_addInformationObject(asdu, io);
         InformationObject_destroy(io);
+
+        if (!added) {
+            LOG_WARN("asdu", "failed to add yx object ioa=0x%04x index=%zu count=%zu",
+                     points[i].ioa, i, count);
+            CS101_ASDU_destroy(asdu);
+            return false;
+        }
     }
 
     bool ok = IMasterConnection_sendASDU(connection, asdu);
@@ -75,8 +82,15 @@ bool asdu_send_yx_batch_non_sequence(IMasterConnection connection, CS101_AppLaye
                                                                                 points[i].ioa,
                                                                                 points[i].value,
                                                                                 points[i].quality);
-        CS101_ASDU_addInformationObject(asdu, io);
+        bool added = CS101_ASDU_addInformationObject(asdu, io);
         InformationObject_destroy(io);
+
+        if (!added) {
+            LOG_WARN("asdu", "failed to add yx non-sequence object ioa=0x%04x index=%zu count=%zu",
+                     points[i].ioa, i, count);
+            CS101_ASDU_destroy(asdu);
+            return false;
+        }
     }
 
     bool ok = IMasterConnection_sendASDU(connection, asdu);
@@ -101,8 +115,15 @@ bool asdu_send_yx_time_batch(IMasterConnection connection, CS101_AppLayerParamet
                                                                                    points[i].value,
                                                                                    points[i].quality,
                                                                                    &timestamp);
-        CS101_ASDU_addInformationObject(asdu, io);
+        bool added = CS101_ASDU_addInformationObject(asdu, io);
         InformationObject_destroy(io);
+
+        if (!added) {
+            LOG_WARN("asdu", "failed to add soe object ioa=0x%04x index=%zu count=%zu",
+                     points[i].ioa, i, count);
+            CS101_ASDU_destroy(asdu);
+            return false;
+        }
     }
 
     bool ok = IMasterConnection_sendASDU(connection, asdu);
@@ -162,8 +183,15 @@ bool asdu_send_yc_batch(IMasterConnection connection, CS101_AppLayerParameters p
                                                               points[i].quality);
         }
 
-        CS101_ASDU_addInformationObject(asdu, io);
+        bool added = CS101_ASDU_addInformationObject(asdu, io);
         InformationObject_destroy(io);
+
+        if (!added) {
+            LOG_WARN("asdu", "failed to add yc object ioa=0x%04x index=%zu count=%zu type=%u",
+                     points[i].ioa, i, count, (unsigned)points[i].iec_type);
+            CS101_ASDU_destroy(asdu);
+            return false;
+        }
     }
 
     bool ok = IMasterConnection_sendASDU(connection, asdu);
@@ -199,8 +227,15 @@ bool asdu_send_yc_batch_non_sequence(IMasterConnection connection, CS101_AppLaye
                                                               points[i].quality);
         }
 
-        CS101_ASDU_addInformationObject(asdu, io);
+        bool added = CS101_ASDU_addInformationObject(asdu, io);
         InformationObject_destroy(io);
+
+        if (!added) {
+            LOG_WARN("asdu", "failed to add yc non-sequence object ioa=0x%04x index=%zu count=%zu type=%u",
+                     points[i].ioa, i, count, (unsigned)points[i].iec_type);
+            CS101_ASDU_destroy(asdu);
+            return false;
+        }
     }
 
     bool ok = IMasterConnection_sendASDU(connection, asdu);
@@ -262,9 +297,16 @@ bool asdu_send_dd_batch(IMasterConnection connection, CS101_AppLayerParameters p
             io = (InformationObject)IntegratedTotals_create(NULL, points[i].ioa, bcr);
         }
 
-        CS101_ASDU_addInformationObject(asdu, io);
+        bool added = CS101_ASDU_addInformationObject(asdu, io);
         InformationObject_destroy(io);
         BinaryCounterReading_destroy(bcr);
+
+        if (!added) {
+            LOG_WARN("asdu", "failed to add dd object ioa=0x%04x index=%zu count=%zu with_time=%d",
+                     points[i].ioa, i, count, with_timestamp ? 1 : 0);
+            CS101_ASDU_destroy(asdu);
+            return false;
+        }
     }
 
     bool ok = IMasterConnection_sendASDU(connection, asdu);

@@ -70,7 +70,7 @@ bool custom_asdu_send_private(IMasterConnection connection, CS101_AppLayerParame
 bool custom_asdu_send_ack(IMasterConnection connection, CS101_AppLayerParameters params,
                           TypeID request_type, int oa, int ca, uint32_t ioa)
 {
-    uint8_t payload[1] = {0};
+    uint8_t payload[1] = {0x45};
     return custom_asdu_send_private(connection, params, request_type,
                                     CS101_COT_ACTIVATION_CON, oa, ca, ioa,
                                     payload, sizeof(payload), false);
@@ -79,7 +79,7 @@ bool custom_asdu_send_ack(IMasterConnection connection, CS101_AppLayerParameters
 bool custom_asdu_send_finish(IMasterConnection connection, CS101_AppLayerParameters params,
                              TypeID request_type, int oa, int ca, uint32_t ioa)
 {
-    uint8_t payload[1] = {0};
+    uint8_t payload[1] = {0x45};
     return custom_asdu_send_private(connection, params, request_type,
                                     CS101_COT_ACTIVATION_TERMINATION, oa, ca, ioa,
                                     payload, sizeof(payload), false);

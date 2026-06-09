@@ -17,6 +17,8 @@
 
       // 允许同时接入的最大主站连接数。
       max_open_connections: 1,
+      low_priority_queue_size: 256,
+      high_priority_queue_size: 256,
 
       // lib60870 从站模式。
       // single_redundancy_group 表示单冗余组，同一时间仅一个活动主站。

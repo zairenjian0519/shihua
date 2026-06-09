@@ -27,11 +27,15 @@
 #define BUSINESS_SEND_INTERVAL_MS 50
 #define GI_SEND_INTERVAL_MS 50
 #define GI_MAX_YX_PER_FRAME 80
+#define ACTIVE_MAX_YX_PER_FRAME 60
 #define ACTIVE_MAX_SOE_PER_FRAME 20
 #define GI_MAX_YC_SCALED_PER_FRAME 80
 #define GI_MAX_YC_SHORT_PER_FRAME 48
-#define CI_MAX_DD_PER_FRAME 80
+#define ACTIVE_MAX_YC_SCALED_PER_FRAME 40
+#define ACTIVE_MAX_YC_SHORT_PER_FRAME 30
+#define CI_MAX_DD_PER_FRAME 48
 #define CI_MAX_DD_WITH_TIME_PER_FRAME 20
+#define TOTAL_CALL_DD_SEND_INTERVAL_MS 200
 #define DYNAGRAM_MAX_WORDS_PER_FRAME 116
 #define DYNAGRAM_IOA_START 0x5401
 #define DYNAGRAM_IOA_END 0x5800
@@ -39,6 +43,23 @@
 #define ELEC_DYNAGRAM_IOA_END 0x5B26
 #define WELLHEAD_PRESSURE_DYNAGRAM_IOA_START 0x5B27
 #define WELLHEAD_PRESSURE_DYNAGRAM_IOA_END 0x5CB6
+#define RTU_PARAM_MAX_WORDS_PER_FRAME 116
+#define RTU_PARAM_IOA_START 0x1001
+#define RTU_PARAM_IOA_END 0x103E
+#define SENSOR_PARAM_MAX_WORDS_PER_FRAME 116
+#define SENSOR_PARAM_IOA_START 0x2001
+#define SENSOR_PARAM_IOA_END 0x4000
+#define CUSTOM_YC_WORD_MAX_PER_FRAME 116
+#define METER_TRUCK_IOA_START 0x5001
+#define METER_TRUCK_IOA_END 0x5100
+#define INJECTION_IOA_START 0x5101
+#define INJECTION_IOA_END 0x5200
+#define HARMONIC_IOA_START 0x5201
+#define HARMONIC_IOA_END 0x5400
+#define ACTIVE_POWER_IOA_START 0x5CB7
+#define ACTIVE_POWER_IOA_END 0x5FD6
+#define RESERVED_SENSOR_IOA_START 0x4200
+#define RESERVED_SENSOR_IOA_END 0x42AA
 
 struct Iec104Server {
     Iec104Config config;
@@ -61,6 +82,10 @@ struct Iec104Server {
 
 static volatile sig_atomic_t g_running = 1;
 static uint64_t g_request_id = 0;
+
+static void send_custom_dynagram(Iec104Server* server, ClientContext* client, const Iec104WorkMsg* msg);
+static void send_custom_elec_dynagram(Iec104Server* server, ClientContext* client, const Iec104WorkMsg* msg);
+static void send_custom_harmonic(Iec104Server* server, ClientContext* client, const Iec104WorkMsg* msg);
 
 static uint64_t msg_time_to_ms(CP56Time2a time)
 {
@@ -138,6 +163,36 @@ static const char* custom_type_name(uint8_t type_id)
         return "reserved-sensor";
     default:
         return "unknown";
+    }
+}
+
+static void log_batch_send_result(const char* tag, const char* kind, uint64_t request_id,
+                                  CS101_CauseOfTransmission cot, uint32_t start_ioa,
+                                  uint32_t end_ioa, size_t count, bool ok)
+{
+    const char* result = ok ? "sent" : "send failed";
+
+    if (request_id != 0) {
+        if (ok) {
+            LOG_INFO(tag, "%s %s request=%llu cot=0x%02x start_ioa=0x%04x end_ioa=0x%04x count=%zu",
+                     kind, result, (unsigned long long)request_id, (unsigned)cot,
+                     start_ioa, end_ioa, count);
+        }
+        else {
+            LOG_WARN(tag, "%s %s request=%llu cot=0x%02x start_ioa=0x%04x end_ioa=0x%04x count=%zu",
+                     kind, result, (unsigned long long)request_id, (unsigned)cot,
+                     start_ioa, end_ioa, count);
+        }
+    }
+    else {
+        if (ok) {
+            LOG_INFO(tag, "%s %s cot=0x%02x start_ioa=0x%04x end_ioa=0x%04x count=%zu",
+                     kind, result, (unsigned)cot, start_ioa, end_ioa, count);
+        }
+        else {
+            LOG_WARN(tag, "%s %s cot=0x%02x start_ioa=0x%04x end_ioa=0x%04x count=%zu",
+                     kind, result, (unsigned)cot, start_ioa, end_ioa, count);
+        }
     }
 }
 
@@ -586,8 +641,12 @@ static void send_total_call(Iec104Server* server, ClientContext* client, const I
             batch++;
 
         client_context_wait_send_interval(client, GI_SEND_INTERVAL_MS);
-        asdu_send_yx_batch(connection, server->al_params, msg->oa, server->config.common_address,
-                           CS101_COT_INTERROGATED_BY_STATION, &snapshot.yx[i], batch);
+        bool ok = asdu_send_yx_batch(connection, server->al_params, msg->oa, server->config.common_address,
+                                     CS101_COT_INTERROGATED_BY_STATION, &snapshot.yx[i], batch);
+        log_batch_send_result("client", "total call yx", msg->request_id,
+                              CS101_COT_INTERROGATED_BY_STATION,
+                              snapshot.yx[i].ioa, snapshot.yx[i + batch - 1].ioa,
+                              batch, ok);
         i += batch;
     }
 
@@ -620,15 +679,84 @@ static void send_total_call(Iec104Server* server, ClientContext* client, const I
                 batch++;
 
             client_context_wait_send_interval(client, GI_SEND_INTERVAL_MS);
-            asdu_send_yc_batch(connection, server->al_params, msg->oa, server->config.common_address,
-                               CS101_COT_INTERROGATED_BY_STATION, &points[i], batch);
+            bool ok = asdu_send_yc_batch(connection, server->al_params, msg->oa, server->config.common_address,
+                                         CS101_COT_INTERROGATED_BY_STATION, &points[i], batch);
+            log_batch_send_result("client", "total call yc", msg->request_id,
+                                  CS101_COT_INTERROGATED_BY_STATION,
+                                  points[i].ioa, points[i + batch - 1].ioa,
+                                  batch, ok);
             i += batch;
         }
     }
 
-    point_table_snapshot_destroy(&snapshot);
+      point_table_snapshot_destroy(&snapshot);
 
-    if (client_context_is_active(client)) {
+      Iec104WorkMsg custom_msg = *msg;
+      custom_msg.type = MSG_CUSTOM_CALL;
+      custom_msg.type_id = CUSTOM_TYPE_DYNAGRAM_CALL;
+      send_custom_dynagram(server, client, &custom_msg);
+
+      custom_msg.type_id = CUSTOM_TYPE_ELEC_DYNAGRAM_CALL;
+      send_custom_elec_dynagram(server, client, &custom_msg);
+
+      custom_msg.type_id = CUSTOM_TYPE_HARMONIC_CALL;
+      send_custom_harmonic(server, client, &custom_msg);
+
+      PointTableSnapshot dd_snapshot;
+      if (point_table_snapshot_create(server->table, &dd_snapshot)) {
+          size_t sent_count = 0;
+          uint32_t dd_start_ioa = dd_snapshot.dd_count > 0 ? dd_snapshot.dd[0].ioa : 0;
+          uint32_t dd_end_ioa = dd_snapshot.dd_count > 0 ?
+                                dd_snapshot.dd[dd_snapshot.dd_count - 1].ioa : 0;
+
+          LOG_INFO("client", "total call dd start request=%llu start_ioa=0x%04x end_ioa=0x%04x total=%zu interval_ms=%d",
+                   (unsigned long long)msg->request_id, dd_start_ioa, dd_end_ioa,
+                   dd_snapshot.dd_count,
+                   TOTAL_CALL_DD_SEND_INTERVAL_MS);
+
+          for (size_t i = 0; i < dd_snapshot.dd_count && client_context_is_active(client);) {
+              size_t batch = 1;
+
+              while (i + batch < dd_snapshot.dd_count &&
+                     batch < CI_MAX_DD_PER_FRAME &&
+                     dd_snapshot.dd[i + batch].ioa == dd_snapshot.dd[i].ioa + (int)batch)
+                  batch++;
+
+              uint32_t start_ioa = dd_snapshot.dd[i].ioa;
+              uint32_t end_ioa = dd_snapshot.dd[i + batch - 1].ioa;
+
+              client_context_wait_send_interval(client, TOTAL_CALL_DD_SEND_INTERVAL_MS);
+              bool ok = asdu_send_dd_batch(connection, server->al_params, msg->oa,
+                                           server->config.common_address, CS101_COT_REQUEST,
+                                           &dd_snapshot.dd[i], batch, false);
+              log_batch_send_result("client", "total call dd", msg->request_id,
+                                    CS101_COT_REQUEST, start_ioa, end_ioa, batch, ok);
+              if (!ok) {
+                  LOG_WARN("client", "total call dd send failed request=%llu start_ioa=0x%04x end_ioa=0x%04x batch=%zu sent=%zu/%zu",
+                           (unsigned long long)msg->request_id, start_ioa, end_ioa,
+                           batch, sent_count, dd_snapshot.dd_count);
+              }
+              else {
+                  sent_count += batch;
+                  LOG_INFO("client", "total call dd sent request=%llu start_ioa=0x%04x end_ioa=0x%04x batch=%zu sent=%zu/%zu",
+                           (unsigned long long)msg->request_id, start_ioa, end_ioa,
+                           batch, sent_count, dd_snapshot.dd_count);
+              }
+
+              i += batch;
+          }
+
+          LOG_INFO("client", "total call dd finished request=%llu start_ioa=0x%04x end_ioa=0x%04x sent=%zu/%zu active=%d",
+                   (unsigned long long)msg->request_id, dd_start_ioa, dd_end_ioa, sent_count,
+                   dd_snapshot.dd_count, client_context_is_active(client) ? 1 : 0);
+
+          point_table_snapshot_destroy(&dd_snapshot);
+      }
+      else {
+          LOG_ERROR("client", "failed to create total call counter snapshot");
+      }
+
+      if (client_context_is_active(client)) {
         client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
         asdu_send_interrogation_termination(connection, server->al_params,
                                             msg->oa, server->config.common_address, msg->qoi);
@@ -678,9 +806,13 @@ static void send_counter_call(Iec104Server* server, ClientContext* client, const
             batch++;
 
         client_context_wait_send_interval(client, GI_SEND_INTERVAL_MS);
-        asdu_send_dd_batch(connection, server->al_params, msg->oa, server->config.common_address,
-                           CS101_COT_REQUESTED_BY_GENERAL_COUNTER,
-                           &snapshot.dd[i], batch, with_timestamp);
+        bool ok = asdu_send_dd_batch(connection, server->al_params, msg->oa, server->config.common_address,
+                                     CS101_COT_REQUESTED_BY_GENERAL_COUNTER,
+                                     &snapshot.dd[i], batch, with_timestamp);
+        log_batch_send_result("client", "counter call dd", msg->request_id,
+                              CS101_COT_REQUESTED_BY_GENERAL_COUNTER,
+                              snapshot.dd[i].ioa, snapshot.dd[i + batch - 1].ioa,
+                              batch, ok);
         i += batch;
     }
 
@@ -711,10 +843,10 @@ static void send_active_upload(Iec104Server* server, ClientContext* client, cons
     }
 
 	for (size_t i = 0; i < snapshot.yx_count && client_context_is_active(client);) {
-        YxPoint points[GI_MAX_YX_PER_FRAME];
+        YxPoint points[ACTIVE_MAX_YX_PER_FRAME];
         size_t batch = 0;
 
-        while (i + batch < snapshot.yx_count && batch < GI_MAX_YX_PER_FRAME) {
+        while (i + batch < snapshot.yx_count && batch < ACTIVE_MAX_YX_PER_FRAME) {
             memset(&points[batch], 0, sizeof(points[batch]));
             points[batch].ioa = snapshot.yx[i + batch].ioa;
             points[batch].value = snapshot.yx[i + batch].value;
@@ -724,8 +856,11 @@ static void send_active_upload(Iec104Server* server, ClientContext* client, cons
         }
 
         client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        asdu_send_yx_batch_non_sequence(connection, server->al_params, 0, server->config.common_address,
-                                        CS101_COT_SPONTANEOUS, points, batch);
+        bool ok = asdu_send_yx_batch_non_sequence(connection, server->al_params, 0,
+                                                  server->config.common_address,
+                                                  CS101_COT_SPONTANEOUS, points, batch);
+        log_batch_send_result("client", "active yx", 0, CS101_COT_SPONTANEOUS,
+                              points[0].ioa, points[batch - 1].ioa, batch, ok);
         i += batch;
     }
 	
@@ -744,8 +879,11 @@ static void send_active_upload(Iec104Server* server, ClientContext* client, cons
         }
 
         client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        asdu_send_yx_time_batch(connection, server->al_params, 0, server->config.common_address,
-                                CS101_COT_SPONTANEOUS, points, batch);
+        bool ok = asdu_send_yx_time_batch(connection, server->al_params, 0,
+                                          server->config.common_address,
+                                          CS101_COT_SPONTANEOUS, points, batch);
+        log_batch_send_result("client", "active soe", 0, CS101_COT_SPONTANEOUS,
+                              points[0].ioa, points[batch - 1].ioa, batch, ok);
         i += batch;
     }
 
@@ -754,7 +892,7 @@ static void send_active_upload(Iec104Server* server, ClientContext* client, cons
         CS101_CauseOfTransmission cot = snapshot.yc[i].cot;
         YC_IECType iec_type = snapshot.yc[i].iec_type;
         size_t max_batch = (iec_type == YC_IEC_TYPE_SCALED) ?
-                           GI_MAX_YC_SCALED_PER_FRAME : GI_MAX_YC_SHORT_PER_FRAME;
+                           ACTIVE_MAX_YC_SCALED_PER_FRAME : ACTIVE_MAX_YC_SHORT_PER_FRAME;
         YcPoint points[GI_MAX_YC_SCALED_PER_FRAME];
         size_t batch = 0;
 
@@ -772,8 +910,11 @@ static void send_active_upload(Iec104Server* server, ClientContext* client, cons
         }
 
         client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        asdu_send_yc_batch_non_sequence(connection, server->al_params, 0, server->config.common_address,
-                                        cot, points, batch);
+        bool ok = asdu_send_yc_batch_non_sequence(connection, server->al_params, 0,
+                                                  server->config.common_address,
+                                                  cot, points, batch);
+        log_batch_send_result("client", "active yc", 0, cot,
+                              points[0].ioa, points[batch - 1].ioa, batch, ok);
         i += batch;
     }
 
@@ -804,9 +945,13 @@ static void send_custom_measure_total(Iec104Server* server, ClientContext* clien
             batch++;
 
         client_context_wait_send_interval(client, GI_SEND_INTERVAL_MS);
-        asdu_send_yx_batch(connection, server->al_params, msg->oa,
-                           server->config.common_address,
-                           CS101_COT_REQUEST, &snapshot.yx[i], batch);
+        bool ok = asdu_send_yx_batch(connection, server->al_params, msg->oa,
+                                     server->config.common_address,
+                                     CS101_COT_REQUEST, &snapshot.yx[i], batch);
+        log_batch_send_result("custom", "measure total yx", msg->request_id,
+                              CS101_COT_REQUEST,
+                              snapshot.yx[i].ioa, snapshot.yx[i + batch - 1].ioa,
+                              batch, ok);
         i += batch;
     }
 
@@ -840,9 +985,13 @@ static void send_custom_measure_total(Iec104Server* server, ClientContext* clien
                 scaled_points[j].iec_type = YC_IEC_TYPE_SCALED;
 
             client_context_wait_send_interval(client, GI_SEND_INTERVAL_MS);
-            asdu_send_yc_batch(connection, server->al_params, msg->oa,
-                               server->config.common_address,
-                               CS101_COT_REQUEST, scaled_points, batch);
+            bool ok = asdu_send_yc_batch(connection, server->al_params, msg->oa,
+                                         server->config.common_address,
+                                         CS101_COT_REQUEST, scaled_points, batch);
+            log_batch_send_result("custom", "measure total yc", msg->request_id,
+                                  CS101_COT_REQUEST,
+                                  scaled_points[0].ioa, scaled_points[batch - 1].ioa,
+                                  batch, ok);
             i += batch;
         }
     }
@@ -1083,62 +1232,268 @@ static void send_custom_elec_dynagram(Iec104Server* server, ClientContext* clien
 static void send_custom_rtu_param(Iec104Server* server, ClientContext* client,
                                   const Iec104WorkMsg* msg)
 {
-    send_custom_placeholder(server, client, msg);
+    PointTableSnapshot snapshot;
+    IMasterConnection connection = client->connection;
+
+    LOG_INFO("custom", "start %s type=0x%02x range=0x%04x-0x%04x request=%llu",
+             custom_type_name(msg->type_id), msg->type_id,
+             RTU_PARAM_IOA_START, RTU_PARAM_IOA_END,
+             (unsigned long long)msg->request_id);
+
+    if (!point_table_snapshot_create(server->table, &snapshot)) {
+        LOG_ERROR("client", "failed to create rtu param snapshot type=0x%02x", msg->type_id);
+        return;
+    }
+
+    for (size_t i = 0; i < snapshot.yc_rtu_count && client_context_is_active(client);) {
+        YcPoint* point = &snapshot.yc_rtu[i];
+
+        if ((int)point->ioa < RTU_PARAM_IOA_START || (int)point->ioa > RTU_PARAM_IOA_END) {
+            i++;
+            continue;
+        }
+
+        size_t batch = 1;
+        while (i + batch < snapshot.yc_rtu_count &&
+               batch < RTU_PARAM_MAX_WORDS_PER_FRAME &&
+               (int)snapshot.yc_rtu[i + batch].ioa <= RTU_PARAM_IOA_END &&
+               snapshot.yc_rtu[i + batch].ioa == point->ioa + (uint32_t)batch)
+            batch++;
+
+        uint8_t payload[3 + RTU_PARAM_MAX_WORDS_PER_FRAME * 2];
+        size_t offset = 0;
+        CS101_ASDU asdu;
+        append_ioa_le(payload, &offset, point->ioa);
+        for (size_t j = 0; j < batch; j++)
+            append_word_le(payload, &offset, (uint16_t)((int)snapshot.yc_rtu[i + j].value & 0xffff));
+
+        client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
+        asdu = CS101_ASDU_create(server->al_params, true, CS101_COT_REQUEST,
+                                 msg->oa, server->config.common_address, false, false);
+        CS101_ASDU_setTypeID(asdu, (TypeID)msg->type_id);
+        CS101_ASDU_setNumberOfElements(asdu, (int)batch);
+        CS101_ASDU_addPayload(asdu, payload, (int)offset);
+        IMasterConnection_sendASDU(connection, asdu);
+        CS101_ASDU_destroy(asdu);
+        i += batch;
+    }
+
+    point_table_snapshot_destroy(&snapshot);
+    LOG_INFO("custom", "data sent %s type=0x%02x range=0x%04x-0x%04x request=%llu",
+             custom_type_name(msg->type_id), msg->type_id,
+             RTU_PARAM_IOA_START, RTU_PARAM_IOA_END,
+             (unsigned long long)msg->request_id);
 }
 
 static void send_custom_sensor_param(Iec104Server* server, ClientContext* client,
                                      const Iec104WorkMsg* msg)
 {
-    send_custom_placeholder(server, client, msg);
+    PointTableSnapshot snapshot;
+    IMasterConnection connection = client->connection;
+
+    LOG_INFO("custom", "start %s type=0x%02x range=0x%04x-0x%04x request=%llu",
+             custom_type_name(msg->type_id), msg->type_id,
+             SENSOR_PARAM_IOA_START, SENSOR_PARAM_IOA_END,
+             (unsigned long long)msg->request_id);
+
+    if (!point_table_snapshot_create(server->table, &snapshot)) {
+        LOG_ERROR("client", "failed to create sensor param snapshot type=0x%02x", msg->type_id);
+        return;
+    }
+
+    for (size_t i = 0; i < snapshot.yc_sensor_conf_count && client_context_is_active(client);) {
+        YcPoint* point = &snapshot.yc_sensor_conf[i];
+
+        if ((int)point->ioa < SENSOR_PARAM_IOA_START || (int)point->ioa > SENSOR_PARAM_IOA_END) {
+            i++;
+            continue;
+        }
+
+        size_t batch = 1;
+        while (i + batch < snapshot.yc_sensor_conf_count &&
+               batch < SENSOR_PARAM_MAX_WORDS_PER_FRAME &&
+               (int)snapshot.yc_sensor_conf[i + batch].ioa <= SENSOR_PARAM_IOA_END &&
+               snapshot.yc_sensor_conf[i + batch].ioa == point->ioa + (uint32_t)batch)
+            batch++;
+
+        uint8_t payload[3 + SENSOR_PARAM_MAX_WORDS_PER_FRAME * 2];
+        size_t offset = 0;
+        CS101_ASDU asdu;
+        append_ioa_le(payload, &offset, point->ioa);
+        for (size_t j = 0; j < batch; j++)
+            append_word_le(payload, &offset, (uint16_t)((int)snapshot.yc_sensor_conf[i + j].value & 0xffff));
+
+        client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
+        asdu = CS101_ASDU_create(server->al_params, true, CS101_COT_REQUEST,
+                                 msg->oa, server->config.common_address, false, false);
+        CS101_ASDU_setTypeID(asdu, (TypeID)msg->type_id);
+        CS101_ASDU_setNumberOfElements(asdu, (int)batch);
+        CS101_ASDU_addPayload(asdu, payload, (int)offset);
+        IMasterConnection_sendASDU(connection, asdu);
+        CS101_ASDU_destroy(asdu);
+        i += batch;
+    }
+
+    point_table_snapshot_destroy(&snapshot);
+    LOG_INFO("custom", "data sent %s type=0x%02x range=0x%04x-0x%04x request=%llu",
+             custom_type_name(msg->type_id), msg->type_id,
+             SENSOR_PARAM_IOA_START, SENSOR_PARAM_IOA_END,
+             (unsigned long long)msg->request_id);
+}
+
+static void send_custom_yc_word_points(Iec104Server* server, ClientContext* client,
+                                       const Iec104WorkMsg* msg,
+                                       const YcPoint* points, size_t count,
+                                       int start_ioa, int end_ioa,
+                                       const char* label)
+{
+    IMasterConnection connection = client->connection;
+
+    LOG_INFO("custom", "start %s type=0x%02x range=0x%04x-0x%04x request=%llu",
+             label, msg->type_id, start_ioa, end_ioa,
+             (unsigned long long)msg->request_id);
+
+    for (size_t i = 0; i < count && client_context_is_active(client);) {
+        const YcPoint* point = &points[i];
+
+        if ((int)point->ioa < start_ioa || (int)point->ioa > end_ioa) {
+            i++;
+            continue;
+        }
+
+        size_t batch = 1;
+        while (i + batch < count &&
+               batch < CUSTOM_YC_WORD_MAX_PER_FRAME &&
+               (int)points[i + batch].ioa <= end_ioa &&
+               points[i + batch].ioa == point->ioa + (uint32_t)batch)
+            batch++;
+
+        uint8_t payload[3 + CUSTOM_YC_WORD_MAX_PER_FRAME * 2];
+        size_t offset = 0;
+        CS101_ASDU asdu;
+        append_ioa_le(payload, &offset, point->ioa);
+        for (size_t j = 0; j < batch; j++)
+            append_word_le(payload, &offset, (uint16_t)((int)points[i + j].value & 0xffff));
+
+        client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
+        asdu = CS101_ASDU_create(server->al_params, true, CS101_COT_REQUEST,
+                                 msg->oa, server->config.common_address, false, false);
+        CS101_ASDU_setTypeID(asdu, (TypeID)msg->type_id);
+        CS101_ASDU_setNumberOfElements(asdu, (int)batch);
+        CS101_ASDU_addPayload(asdu, payload, (int)offset);
+        IMasterConnection_sendASDU(connection, asdu);
+        CS101_ASDU_destroy(asdu);
+        i += batch;
+    }
+
+    LOG_INFO("custom", "data sent %s type=0x%02x range=0x%04x-0x%04x request=%llu",
+             label, msg->type_id, start_ioa, end_ioa,
+             (unsigned long long)msg->request_id);
+}
+
+static void send_custom_yc_custom_word_range(Iec104Server* server, ClientContext* client,
+                                             const Iec104WorkMsg* msg,
+                                             int start_ioa, int end_ioa,
+                                             const char* label)
+{
+    PointTableSnapshot snapshot;
+
+    if (!point_table_snapshot_create(server->table, &snapshot)) {
+        LOG_ERROR("client", "failed to create %s snapshot type=0x%02x", label, msg->type_id);
+        return;
+    }
+
+    send_custom_yc_word_points(server, client, msg, snapshot.yc_custom, snapshot.yc_custom_count,
+                               start_ioa, end_ioa, label);
+
+    point_table_snapshot_destroy(&snapshot);
 }
 
 static void send_custom_harmonic(Iec104Server* server, ClientContext* client,
                                  const Iec104WorkMsg* msg)
 {
-    send_custom_placeholder(server, client, msg);
+    send_custom_yc_custom_word_range(server, client, msg,
+                                     HARMONIC_IOA_START, HARMONIC_IOA_END,
+                                     custom_type_name(msg->type_id));
 }
 
 static void send_custom_meter_truck(Iec104Server* server, ClientContext* client,
                                     const Iec104WorkMsg* msg)
 {
-    send_custom_placeholder(server, client, msg);
+    send_custom_yc_custom_word_range(server, client, msg,
+                                     METER_TRUCK_IOA_START, METER_TRUCK_IOA_END,
+                                     custom_type_name(msg->type_id));
 }
 
 static void send_custom_injection(Iec104Server* server, ClientContext* client,
                                   const Iec104WorkMsg* msg)
 {
-    send_custom_placeholder(server, client, msg);
+    send_custom_yc_custom_word_range(server, client, msg,
+                                     INJECTION_IOA_START, INJECTION_IOA_END,
+                                     custom_type_name(msg->type_id));
 }
 
 static void send_custom_all_dynagram(Iec104Server* server, ClientContext* client,
                                      const Iec104WorkMsg* msg)
 {
-    IoaRange ranges[] = {
-        {DYNAGRAM_IOA_START, DYNAGRAM_IOA_END},
-        {ELEC_DYNAGRAM_IOA_START, ELEC_DYNAGRAM_IOA_END},
-        {WELLHEAD_PRESSURE_DYNAGRAM_IOA_START, WELLHEAD_PRESSURE_DYNAGRAM_IOA_END}
+    Iec104WorkMsg dynagram_msg = *msg;
+    Iec104WorkMsg elec_dynagram_msg = *msg;
+    Iec104WorkMsg wellhead_msg = *msg;
+    IoaRange dynagram_ranges[] = {
+        {DYNAGRAM_IOA_START, DYNAGRAM_IOA_END}
+    };
+    IoaRange elec_dynagram_ranges[] = {
+        {ELEC_DYNAGRAM_IOA_START, ELEC_DYNAGRAM_IOA_END}
     };
 
-    send_custom_dynagram_ranges(server, client, msg, ranges,
-                                sizeof(ranges) / sizeof(ranges[0]));
+    dynagram_msg.type_id = CUSTOM_TYPE_DYNAGRAM_CALL;
+    send_custom_dynagram_ranges(server, client, &dynagram_msg, dynagram_ranges,
+                                sizeof(dynagram_ranges) / sizeof(dynagram_ranges[0]));
+
+    elec_dynagram_msg.type_id = CUSTOM_TYPE_ELEC_DYNAGRAM_CALL;
+    send_custom_dynagram_ranges(server, client, &elec_dynagram_msg, elec_dynagram_ranges,
+                                sizeof(elec_dynagram_ranges) / sizeof(elec_dynagram_ranges[0]));
+
+    wellhead_msg.type_id = CUSTOM_TYPE_WELLHEAD_PRESSURE_CALL;
+    send_custom_yc_custom_word_range(server, client, &wellhead_msg,
+                                     WELLHEAD_PRESSURE_DYNAGRAM_IOA_START,
+                                     WELLHEAD_PRESSURE_DYNAGRAM_IOA_END,
+                                     custom_type_name(wellhead_msg.type_id));
 }
 
 static void send_custom_active_power(Iec104Server* server, ClientContext* client,
                                      const Iec104WorkMsg* msg)
 {
-    send_custom_placeholder(server, client, msg);
+    send_custom_yc_custom_word_range(server, client, msg,
+                                     ACTIVE_POWER_IOA_START, ACTIVE_POWER_IOA_END,
+                                     custom_type_name(msg->type_id));
 }
 
 static void send_custom_wellhead_pressure(Iec104Server* server, ClientContext* client,
                                           const Iec104WorkMsg* msg)
 {
-    send_custom_placeholder(server, client, msg);
+    send_custom_yc_custom_word_range(server, client, msg,
+                                     WELLHEAD_PRESSURE_DYNAGRAM_IOA_START,
+                                     WELLHEAD_PRESSURE_DYNAGRAM_IOA_END,
+                                     custom_type_name(msg->type_id));
 }
 
 static void send_custom_reserved_sensor(Iec104Server* server, ClientContext* client,
                                         const Iec104WorkMsg* msg)
 {
-    send_custom_placeholder(server, client, msg);
+    PointTableSnapshot snapshot;
+    const char* label = custom_type_name(msg->type_id);
+
+    if (!point_table_snapshot_create(server->table, &snapshot)) {
+        LOG_ERROR("client", "failed to create %s snapshot type=0x%02x", label, msg->type_id);
+        return;
+    }
+
+    send_custom_yc_word_points(server, client, msg, snapshot.yc, snapshot.yc_count,
+                               RESERVED_SENSOR_IOA_START, RESERVED_SENSOR_IOA_END,
+                               label);
+
+    point_table_snapshot_destroy(&snapshot);
 }
 
 static void handle_custom_call_work(Iec104Server* server, ClientContext* client,
@@ -1551,8 +1906,7 @@ static bool asdu_handler(void* parameter, IMasterConnection connection, CS101_AS
     }
 
     if (custom_asdu_is_call_type(type)) {
-        if (CS101_ASDU_getCOT(asdu) != CS101_COT_ACTIVATION &&
-            CS101_ASDU_getCOT(asdu) != CS101_COT_REQUEST) {
+        if (CS101_ASDU_getCOT(asdu) != CS101_COT_ACTIVATION) {
             CS101_ASDU_setCOT(asdu, CS101_COT_UNKNOWN_COT);
             CS101_ASDU_setNegative(asdu, true);
             IMasterConnection_sendASDU(connection, asdu);

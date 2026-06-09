@@ -509,8 +509,8 @@ void config_init_defaults(Iec104Config* config)
     config->local_port = 2404;
     config->common_address = 1;
     config->max_open_connections = 1;
-    config->low_priority_queue_size = 64;
-    config->high_priority_queue_size = 32;
+    config->low_priority_queue_size = 256;
+    config->high_priority_queue_size = 256;
     config->k = 12;
     config->w = 8;
     config->t0_seconds = 10;
