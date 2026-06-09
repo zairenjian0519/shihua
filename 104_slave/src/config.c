@@ -428,8 +428,12 @@ static bool load_with_json_c(const char* path, const char* source_text, Iec104Co
     json_object* log = json_get_obj(iec104, "log");
     json_object* diag = json_get_obj(iec104, "diag");
     json_object* mysql = json_get_obj(iec104, "mysql");
+    json_object* sqlite = json_get_obj(iec104, "sqlite");
     json_object* history_storage = json_get_obj(iec104, "history_storage");
     json_object* history_soe = json_get_obj(history_storage, "soe");
+    json_object* history_yx = json_get_obj(history_storage, "yx");
+    json_object* history_yc = json_get_obj(history_storage, "yc");
+    json_object* history_dd = json_get_obj(history_storage, "dd");
     json_object* history_query = json_get_obj(history_storage, "query");
     json_object* history_db_queue = json_get_obj(history_storage, "db_queue");
     if (!diag)
@@ -487,9 +491,23 @@ static bool load_with_json_c(const char* path, const char* source_text, Iec104Co
     json_read_int(mysql, "connect_timeout_ms", &config->mysql_connect_timeout_ms);
     json_read_bool(mysql, "ssl_verify_server_cert", &config->mysql_ssl_verify_server_cert);
 
+    json_read_bool(sqlite, "enabled", &config->sqlite_enabled);
+    json_read_string(sqlite, "database", config->sqlite_database, sizeof(config->sqlite_database));
+    json_read_int(sqlite, "busy_timeout_ms", &config->sqlite_busy_timeout_ms);
+    json_read_string(sqlite, "journal_mode", config->sqlite_journal_mode, sizeof(config->sqlite_journal_mode));
+    json_read_string(sqlite, "synchronous", config->sqlite_synchronous, sizeof(config->sqlite_synchronous));
+
+    json_read_string(history_storage, "backend", config->history_storage_backend,
+                     sizeof(config->history_storage_backend));
     json_read_bool(history_soe, "enabled", &config->history_soe_enabled);
     json_read_string(history_soe, "table", config->history_soe_table, sizeof(config->history_soe_table));
     json_read_int(history_soe, "max_records", &config->history_soe_max_records);
+    json_read_bool(history_yx, "enabled", &config->history_yx_enabled);
+    json_read_string(history_yx, "table", config->history_yx_table, sizeof(config->history_yx_table));
+    json_read_bool(history_yc, "enabled", &config->history_yc_enabled);
+    json_read_string(history_yc, "table", config->history_yc_table, sizeof(config->history_yc_table));
+    json_read_bool(history_dd, "enabled", &config->history_dd_enabled);
+    json_read_string(history_dd, "table", config->history_dd_table, sizeof(config->history_dd_table));
     json_read_int(history_query, "max_records_per_call", &config->history_query_max_records);
     json_read_int(history_db_queue, "capacity", &config->history_db_queue_capacity);
 
@@ -543,9 +561,21 @@ void config_init_defaults(Iec104Config* config)
     snprintf(config->mysql_charset, sizeof(config->mysql_charset), "utf8mb4");
     config->mysql_connect_timeout_ms = 3000;
     config->mysql_ssl_verify_server_cert = false;
+    config->sqlite_enabled = true;
+    snprintf(config->sqlite_database, sizeof(config->sqlite_database), "data/iec104_history.db");
+    config->sqlite_busy_timeout_ms = 3000;
+    snprintf(config->sqlite_journal_mode, sizeof(config->sqlite_journal_mode), "WAL");
+    snprintf(config->sqlite_synchronous, sizeof(config->sqlite_synchronous), "NORMAL");
+    snprintf(config->history_storage_backend, sizeof(config->history_storage_backend), "sqlite");
     config->history_soe_enabled = true;
     snprintf(config->history_soe_table, sizeof(config->history_soe_table), "iec104_soe_history");
     config->history_soe_max_records = 10000;
+    config->history_yx_enabled = true;
+    snprintf(config->history_yx_table, sizeof(config->history_yx_table), "iec104_yx_history");
+    config->history_yc_enabled = true;
+    snprintf(config->history_yc_table, sizeof(config->history_yc_table), "iec104_yc_history");
+    config->history_dd_enabled = true;
+    snprintf(config->history_dd_table, sizeof(config->history_dd_table), "iec104_dd_history");
     config->history_query_max_records = 1000;
     config->history_db_queue_capacity = 4096;
 }
@@ -617,10 +647,28 @@ bool config_load_file(const char* path, Iec104Config* config)
         parse_int_key(text, "mysql_connect_timeout_ms", config->mysql_connect_timeout_ms);
     config->mysql_ssl_verify_server_cert =
         parse_bool_key(text, "mysql_ssl_verify_server_cert", config->mysql_ssl_verify_server_cert);
+    config->sqlite_enabled = parse_bool_key(text, "sqlite_enabled", config->sqlite_enabled);
+    parse_string_key(text, "sqlite_database", config->sqlite_database, sizeof(config->sqlite_database));
+    config->sqlite_busy_timeout_ms =
+        parse_int_key(text, "sqlite_busy_timeout_ms", config->sqlite_busy_timeout_ms);
+    parse_string_key(text, "sqlite_journal_mode", config->sqlite_journal_mode,
+                     sizeof(config->sqlite_journal_mode));
+    parse_string_key(text, "sqlite_synchronous", config->sqlite_synchronous,
+                     sizeof(config->sqlite_synchronous));
+    parse_string_key(text, "history_storage_backend", config->history_storage_backend,
+                     sizeof(config->history_storage_backend));
+    parse_string_key(text, "backend", config->history_storage_backend,
+                     sizeof(config->history_storage_backend));
     config->history_soe_enabled = parse_bool_key(text, "history_soe_enabled", config->history_soe_enabled);
     parse_string_key(text, "history_soe_table", config->history_soe_table, sizeof(config->history_soe_table));
     config->history_soe_max_records =
         parse_int_key(text, "history_soe_max_records", config->history_soe_max_records);
+    config->history_yx_enabled = parse_bool_key(text, "history_yx_enabled", config->history_yx_enabled);
+    parse_string_key(text, "history_yx_table", config->history_yx_table, sizeof(config->history_yx_table));
+    config->history_yc_enabled = parse_bool_key(text, "history_yc_enabled", config->history_yc_enabled);
+    parse_string_key(text, "history_yc_table", config->history_yc_table, sizeof(config->history_yc_table));
+    config->history_dd_enabled = parse_bool_key(text, "history_dd_enabled", config->history_dd_enabled);
+    parse_string_key(text, "history_dd_table", config->history_dd_table, sizeof(config->history_dd_table));
     config->history_query_max_records =
         parse_int_key(text, "history_query_max_records", config->history_query_max_records);
     config->history_db_queue_capacity =

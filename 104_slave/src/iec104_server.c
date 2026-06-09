@@ -37,6 +37,7 @@
 #define CI_MAX_DD_WITH_TIME_PER_FRAME 20
 #define TOTAL_CALL_DD_SEND_INTERVAL_MS 200
 #define DYNAGRAM_MAX_WORDS_PER_FRAME 116
+#define HISTORY_SOE_MAX_RECORDS_PER_FRAME 20
 #define DYNAGRAM_IOA_START 0x5401
 #define DYNAGRAM_IOA_END 0x5800
 #define ELEC_DYNAGRAM_IOA_START 0x5801
@@ -60,6 +61,20 @@
 #define ACTIVE_POWER_IOA_END 0x5FD6
 #define RESERVED_SENSOR_IOA_START 0x4200
 #define RESERVED_SENSOR_IOA_END 0x42AA
+
+typedef struct {
+    YxPoint yx_records[256];
+    YcPoint yc_records[256];
+    DdPoint dd_records[256];
+    uint64_t yx_ids[256];
+    uint64_t yc_ids[256];
+    uint64_t dd_ids[256];
+    uint64_t begin_ms;
+    uint64_t end_ms;
+    size_t yx_count;
+    size_t yc_count;
+    size_t dd_count;
+} HistoryDataQueryResult;
 
 struct Iec104Server {
     Iec104Config config;
@@ -86,6 +101,10 @@ static uint64_t g_request_id = 0;
 static void send_custom_dynagram(Iec104Server* server, ClientContext* client, const Iec104WorkMsg* msg);
 static void send_custom_elec_dynagram(Iec104Server* server, ClientContext* client, const Iec104WorkMsg* msg);
 static void send_custom_harmonic(Iec104Server* server, ClientContext* client, const Iec104WorkMsg* msg);
+static void append_ioa_le(uint8_t* buffer, size_t* offset, uint32_t ioa);
+static void append_word_le(uint8_t* buffer, size_t* offset, uint16_t value);
+static void append_cp56_time(uint8_t* buffer, size_t* offset, uint64_t timestamp_ms);
+static size_t history_data_total_count(const HistoryDataQueryResult* result);
 
 static uint64_t msg_time_to_ms(CP56Time2a time)
 {
@@ -128,6 +147,14 @@ void iec104_server_request_stop(void)
 static uint64_t next_request_id(void)
 {
     return ++g_request_id;
+}
+
+static size_t history_data_total_count(const HistoryDataQueryResult* result)
+{
+    if (!result)
+        return 0;
+
+    return result->yx_count + result->yc_count + result->dd_count;
 }
 
 static const char* custom_type_name(uint8_t type_id)
@@ -1014,7 +1041,8 @@ static void send_history_soe(Iec104Server* server, ClientContext* client, const 
         max_records > (size_t)server->config.history_query_max_records)
         max_records = (size_t)server->config.history_query_max_records;
 
-    if (history_store_is_enabled(&server->history_store)) {
+    if (history_store_is_enabled(&server->history_store) &&
+        server->config.history_soe_enabled) {
         count = history_store_query_soe(&server->history_store, begin_ms, end_ms,
                                         records, max_records);
     }
@@ -1027,11 +1055,39 @@ static void send_history_soe(Iec104Server* server, ClientContext* client, const 
              (unsigned long long)begin_ms, (unsigned long long)end_ms, count,
              (unsigned long long)msg->request_id);
 
-    for (size_t i = 0; i < count && client_context_is_active(client); i++) {
+    for (size_t i = 0; i < count && client_context_is_active(client);) {
+        size_t batch = count - i;
+        if (batch > HISTORY_SOE_MAX_RECORDS_PER_FRAME)
+            batch = HISTORY_SOE_MAX_RECORDS_PER_FRAME;
+
         client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        custom_asdu_send_history_yx(client->connection, server->al_params,
-                                    msg->oa, server->config.common_address,
-                                    &records[i]);
+        uint8_t payload[3 + HISTORY_SOE_MAX_RECORDS_PER_FRAME * (2 * 2 + 7)];
+        size_t offset = 0;
+        CS101_ASDU asdu;
+        bool ok;
+
+        append_ioa_le(payload, &offset, msg->ioa);
+        for (size_t j = 0; j < batch; j++) {
+            const SoeRecord* record = &records[i + j];
+            uint16_t status_word = (uint16_t)((record->value ? 1u : 0u) |
+                                             (((uint16_t)record->quality & 0xffu) << 8));
+            append_word_le(payload, &offset, (uint16_t)(record->ioa & 0xffff));
+            append_word_le(payload, &offset, status_word);
+            append_cp56_time(payload, &offset, record->timestamp_ms);
+        }
+
+        asdu = CS101_ASDU_create(server->al_params, true, CS101_COT_REQUEST,
+                                 msg->oa, server->config.common_address, false, false);
+        CS101_ASDU_setTypeID(asdu, (TypeID)msg->type_id);
+        CS101_ASDU_setNumberOfElements(asdu, (int)batch);
+        CS101_ASDU_addPayload(asdu, payload, (int)offset);
+        ok = IMasterConnection_sendASDU(client->connection, asdu);
+        CS101_ASDU_destroy(asdu);
+
+        LOG_DEBUG("custom", "history soe frame type=0x%02x ioa=0x%06x records=%zu ok=%d request=%llu",
+                  msg->type_id, msg->ioa, batch, ok ? 1 : 0,
+                  (unsigned long long)msg->request_id);
+        i += batch;
     }
 
     LOG_INFO("custom", "data sent %s type=0x%02x records=%zu request=%llu",
@@ -1039,35 +1095,142 @@ static void send_history_soe(Iec104Server* server, ClientContext* client, const 
              (unsigned long long)msg->request_id);
 }
 
-static void send_history_current_snapshot(Iec104Server* server, ClientContext* client,
-                                          const Iec104WorkMsg* msg)
+static void query_history_data(Iec104Server* server, const Iec104WorkMsg* msg,
+                               HistoryDataQueryResult* result)
 {
-    PointTableSnapshot snapshot;
+    size_t max_records;
 
-    LOG_INFO("custom", "start %s type=0x%02x request=%llu",
+    memset(result, 0, sizeof(*result));
+    result->begin_ms = msg_time_to_ms((CP56Time2a)&msg->begin_time);
+    result->end_ms = msg_time_to_ms((CP56Time2a)&msg->end_time);
+    max_records = sizeof(result->yx_records) / sizeof(result->yx_records[0]);
+
+    if (history_store_is_enabled(&server->history_store)) {
+        result->yx_count = history_store_query_yx_page(&server->history_store,
+                                                       result->begin_ms, result->end_ms,
+                                                       0, 0,
+                                                       result->yx_records, result->yx_ids,
+                                                       max_records);
+        result->yc_count = history_store_query_yc_page(&server->history_store,
+                                                       result->begin_ms, result->end_ms,
+                                                       0, 0,
+                                                       result->yc_records, result->yc_ids,
+                                                       max_records);
+        result->dd_count = history_store_query_dd_page(&server->history_store,
+                                                       result->begin_ms, result->end_ms,
+                                                       0, 0,
+                                                       result->dd_records, result->dd_ids,
+                                                       max_records);
+    }
+}
+
+static void send_history_data_records(Iec104Server* server, ClientContext* client,
+                                      const Iec104WorkMsg* msg,
+                                      const HistoryDataQueryResult* result)
+{
+    YxPoint yx_records[256];
+    YcPoint yc_records[256];
+    DdPoint dd_records[256];
+    uint64_t yx_ids[256];
+    uint64_t yc_ids[256];
+    uint64_t dd_ids[256];
+    size_t max_records = sizeof(yx_records) / sizeof(yx_records[0]);
+    size_t yx_total = 0;
+    size_t yc_total = 0;
+    size_t dd_total = 0;
+    size_t yx_count = result->yx_count;
+    size_t yc_count = result->yc_count;
+    size_t dd_count = result->dd_count;
+    uint64_t last_yx_ts = 0;
+    uint64_t last_yx_id = 0;
+    uint64_t last_yc_ts = 0;
+    uint64_t last_yc_id = 0;
+    uint64_t last_dd_ts = 0;
+    uint64_t last_dd_id = 0;
+
+    memcpy(yx_records, result->yx_records, result->yx_count * sizeof(yx_records[0]));
+    memcpy(yc_records, result->yc_records, result->yc_count * sizeof(yc_records[0]));
+    memcpy(dd_records, result->dd_records, result->dd_count * sizeof(dd_records[0]));
+    memcpy(yx_ids, result->yx_ids, result->yx_count * sizeof(yx_ids[0]));
+    memcpy(yc_ids, result->yc_ids, result->yc_count * sizeof(yc_ids[0]));
+    memcpy(dd_ids, result->dd_ids, result->dd_count * sizeof(dd_ids[0]));
+
+    LOG_INFO("custom", "start %s type=0x%02x begin=%llu end=%llu yx=%zu yc=%zu dd=%zu request=%llu",
              custom_type_name(msg->type_id), msg->type_id,
+             (unsigned long long)result->begin_ms, (unsigned long long)result->end_ms,
+             result->yx_count, result->yc_count, result->dd_count,
              (unsigned long long)msg->request_id);
 
-    if (!point_table_snapshot_create(server->table, &snapshot))
-        return;
+    while (yx_count > 0 && client_context_is_active(client)) {
+        for (size_t i = 0; i < yx_count && client_context_is_active(client); i++) {
+            SoeRecord record;
 
-    for (size_t i = 0; i < snapshot.yc_count && client_context_is_active(client); i++) {
-        client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        custom_asdu_send_history_yc(client->connection, server->al_params,
-                                    msg->oa, server->config.common_address,
-                                    &snapshot.yc[i]);
+            memset(&record, 0, sizeof(record));
+            record.ioa = (int)yx_records[i].ioa;
+            record.value = yx_records[i].value != 0;
+            record.quality = (QualityDescriptor)yx_records[i].quality;
+            record.timestamp_ms = yx_records[i].timestamp_ms;
+            client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
+            custom_asdu_send_history_yx(client->connection, server->al_params,
+                                        msg->oa, server->config.common_address,
+                                        &record);
+        }
+
+        yx_total += yx_count;
+        last_yx_ts = yx_records[yx_count - 1].timestamp_ms;
+        last_yx_id = yx_ids[yx_count - 1];
+        if (yx_count < max_records)
+            break;
+
+        yx_count = history_store_query_yx_page(&server->history_store,
+                                               result->begin_ms, result->end_ms,
+                                               last_yx_ts, last_yx_id,
+                                               yx_records, yx_ids, max_records);
     }
 
-    for (size_t i = 0; i < snapshot.dd_count && client_context_is_active(client); i++) {
-        client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        custom_asdu_send_history_dd(client->connection, server->al_params,
-                                    msg->oa, server->config.common_address,
-                                    &snapshot.dd[i]);
+    while (yc_count > 0 && client_context_is_active(client)) {
+        for (size_t i = 0; i < yc_count && client_context_is_active(client); i++) {
+            client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
+            custom_asdu_send_history_yc(client->connection, server->al_params,
+                                        msg->oa, server->config.common_address,
+                                        &yc_records[i]);
+        }
+
+        yc_total += yc_count;
+        last_yc_ts = yc_records[yc_count - 1].timestamp_ms;
+        last_yc_id = yc_ids[yc_count - 1];
+        if (yc_count < max_records)
+            break;
+
+        yc_count = history_store_query_yc_page(&server->history_store,
+                                               result->begin_ms, result->end_ms,
+                                               last_yc_ts, last_yc_id,
+                                               yc_records, yc_ids, max_records);
     }
 
-    point_table_snapshot_destroy(&snapshot);
-    LOG_INFO("custom", "data sent %s type=0x%02x request=%llu",
+    while (dd_count > 0 && client_context_is_active(client)) {
+        for (size_t i = 0; i < dd_count && client_context_is_active(client); i++) {
+            client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
+            custom_asdu_send_history_dd(client->connection, server->al_params,
+                                        msg->oa, server->config.common_address,
+                                        &dd_records[i]);
+        }
+
+        dd_total += dd_count;
+        last_dd_ts = dd_records[dd_count - 1].timestamp_ms;
+        last_dd_id = dd_ids[dd_count - 1];
+        if (dd_count < max_records)
+            break;
+
+        dd_count = history_store_query_dd_page(&server->history_store,
+                                               result->begin_ms, result->end_ms,
+                                               last_dd_ts, last_dd_id,
+                                               dd_records, dd_ids, max_records);
+    }
+
+    LOG_INFO("custom", "data sent %s type=0x%02x yx=%zu yc=%zu dd=%zu request=%llu",
              custom_type_name(msg->type_id), msg->type_id,
+             yx_total, yc_total, dd_total,
              (unsigned long long)msg->request_id);
 }
 
@@ -1499,12 +1662,29 @@ static void send_custom_reserved_sensor(Iec104Server* server, ClientContext* cli
 static void handle_custom_call_work(Iec104Server* server, ClientContext* client,
                                     const Iec104WorkMsg* msg)
 {
+    HistoryDataQueryResult history_data;
+    bool has_history_data = false;
+
     if (!client_context_is_active(client))
         return;
 
     LOG_INFO("custom", "handle start %s type=0x%02x cot=0x%02x ca=%d ioa=0x%06x request=%llu",
              custom_type_name(msg->type_id), msg->type_id, msg->cot, msg->ca, msg->ioa,
              (unsigned long long)msg->request_id);
+
+    memset(&history_data, 0, sizeof(history_data));
+    if (msg->type_id == CUSTOM_TYPE_HISTORY_CALL) {
+        query_history_data(server, msg, &history_data);
+        has_history_data = history_data_total_count(&history_data) > 0;
+        if (!has_history_data) {
+            LOG_INFO("custom", "no history data type=0x%02x begin=%llu end=%llu request=%llu",
+                     msg->type_id,
+                     (unsigned long long)history_data.begin_ms,
+                     (unsigned long long)history_data.end_ms,
+                     (unsigned long long)msg->request_id);
+            goto finish_only;
+        }
+    }
 
     client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
     custom_asdu_send_ack(client->connection, server->al_params, msg->type_id,
@@ -1527,7 +1707,7 @@ static void handle_custom_call_work(Iec104Server* server, ClientContext* client,
         break;
 
     case CUSTOM_TYPE_HISTORY_CALL:
-        send_history_current_snapshot(server, client, msg);
+        send_history_data_records(server, client, msg, &history_data);
         break;
 
     case CUSTOM_TYPE_RTU_PARAM_CALL:
@@ -1575,6 +1755,7 @@ static void handle_custom_call_work(Iec104Server* server, ClientContext* client,
         break;
     }
 
+finish_only:
     if (client_context_is_active(client)) {
         client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
         custom_asdu_send_finish(client->connection, server->al_params, msg->type_id,

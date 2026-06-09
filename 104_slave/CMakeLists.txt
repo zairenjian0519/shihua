@@ -8,6 +8,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(LIB60870_DIR "${CMAKE_CURRENT_LIST_DIR}/../lib60870-master/lib60870-C" CACHE PATH "Path to lib60870-C")
 set(JSON_C_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/../json-c-master" CACHE PATH "Path to json-c source tree")
 set(MARIADB_CONNECTOR_C_DIR "${CMAKE_CURRENT_LIST_DIR}/../mariadb-connector-c-3.4" CACHE PATH "Path to MariaDB Connector/C source tree")
+set(SQLITE_AMALGAMATION_DIR "${CMAKE_CURRENT_LIST_DIR}/../sqlite-amalgamation-3530200" CACHE PATH "Path to SQLite amalgamation source tree")
 
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -64,6 +65,14 @@ add_executable(iec104_slave
     src/shm_adapter.c
     src/iec104_server.c
 )
+
+if (EXISTS "${SQLITE_AMALGAMATION_DIR}/sqlite3.c")
+    target_sources(iec104_slave PRIVATE "${SQLITE_AMALGAMATION_DIR}/sqlite3.c")
+    target_include_directories(iec104_slave PRIVATE "${SQLITE_AMALGAMATION_DIR}")
+    target_compile_definitions(iec104_slave PRIVATE HAVE_SQLITE=1 SQLITE_THREADSAFE=1)
+else()
+    message(FATAL_ERROR "SQLite amalgamation was not found at ${SQLITE_AMALGAMATION_DIR}")
+endif()
 
 add_executable(iec104_diag
     tools/iec104_diag.c

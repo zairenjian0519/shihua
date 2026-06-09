@@ -115,11 +115,34 @@
       ssl_verify_server_cert: false,
     },
 
+    sqlite: {
+      // Enable SQLite historical SOE storage.
+      enabled: true,
+      database: "data/iec104_history.db",
+      busy_timeout_ms: 3000,
+      journal_mode: "WAL",
+      synchronous: "NORMAL",
+    },
+
     history_storage: {
+      // Select database backend for historical storage: "sqlite" or "mysql".
+      backend: "sqlite",
       soe: {
         enabled: true,
         table: "iec104_soe_history",
         max_records: 10000,
+      },
+      yx: {
+        enabled: true,
+        table: "iec104_yx_history",
+      },
+      yc: {
+        enabled: true,
+        table: "iec104_yc_history",
+      },
+      dd: {
+        enabled: true,
+        table: "iec104_dd_history",
       },
       query: {
         max_records_per_call: 256,

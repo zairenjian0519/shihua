@@ -88,7 +88,7 @@ bool custom_asdu_send_finish(IMasterConnection connection, CS101_AppLayerParamet
 bool custom_asdu_send_history_yc(IMasterConnection connection, CS101_AppLayerParameters params,
                                  int oa, int ca, const YcPoint* point)
 {
-    CS101_ASDU asdu = CS101_ASDU_create(params, false, CS101_COT_REQUEST, oa, ca, false, false);
+    CS101_ASDU asdu = CS101_ASDU_create(params, false, CS101_COT_INTERROGATED_BY_STATION, oa, ca, false, false);
     InformationObject io = NULL;
     struct sCP56Time2a timestamp;
     bool ok;
@@ -119,7 +119,7 @@ bool custom_asdu_send_history_yc(IMasterConnection connection, CS101_AppLayerPar
 bool custom_asdu_send_history_yx(IMasterConnection connection, CS101_AppLayerParameters params,
                                  int oa, int ca, const SoeRecord* record)
 {
-    CS101_ASDU asdu = CS101_ASDU_create(params, false, CS101_COT_REQUEST, oa, ca, false, false);
+    CS101_ASDU asdu = CS101_ASDU_create(params, false, CS101_COT_INTERROGATED_BY_STATION, oa, ca, false, false);
     InformationObject io;
     struct sCP56Time2a timestamp;
     bool ok;
@@ -140,7 +140,7 @@ bool custom_asdu_send_history_yx(IMasterConnection connection, CS101_AppLayerPar
 bool custom_asdu_send_history_dd(IMasterConnection connection, CS101_AppLayerParameters params,
                                  int oa, int ca, const DdPoint* point)
 {
-    CS101_ASDU asdu = CS101_ASDU_create(params, false, CS101_COT_REQUEST, oa, ca, false, false);
+    CS101_ASDU asdu = CS101_ASDU_create(params, false, CS101_COT_INTERROGATED_BY_STATION, oa, ca, false, false);
     BinaryCounterReading bcr;
     InformationObject io;
     struct sCP56Time2a timestamp;
