@@ -26,6 +26,9 @@ bool asdu_send_yc_batch(IMasterConnection connection, CS101_AppLayerParameters p
 bool asdu_send_yc_batch_non_sequence(IMasterConnection connection, CS101_AppLayerParameters params,
                                      int oa, int ca, CS101_CauseOfTransmission cot,
                                      const YcPoint* points, size_t count);
+bool asdu_send_yc_time_batch_non_sequence(IMasterConnection connection, CS101_AppLayerParameters params,
+                                          int oa, int ca, CS101_CauseOfTransmission cot,
+                                          const YcPoint* points, size_t count);
 bool asdu_send_dd(IMasterConnection connection, CS101_AppLayerParameters params,
                   int oa, int ca, CS101_CauseOfTransmission cot, const DdPoint* point,
                   bool with_timestamp);

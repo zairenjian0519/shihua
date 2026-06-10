@@ -243,6 +243,59 @@ bool asdu_send_yc_batch_non_sequence(IMasterConnection connection, CS101_AppLaye
     return ok;
 }
 
+bool asdu_send_yc_time_batch_non_sequence(IMasterConnection connection, CS101_AppLayerParameters params,
+                                          int oa, int ca, CS101_CauseOfTransmission cot,
+                                          const YcPoint* points, size_t count)
+{
+    if (!points || count == 0)
+        return true;
+
+    CS101_ASDU asdu = CS101_ASDU_create(params, false, cot, oa, ca, false, false);
+
+    for (size_t i = 0; i < count; i++) {
+        InformationObject io = NULL;
+        struct sCP56Time2a timestamp;
+
+        set_timestamp(&timestamp, points[i].timestamp_ms);
+
+        if (points[i].iec_type == YC_IEC_TYPE_NORMALIZED) {
+            io = (InformationObject)MeasuredValueNormalizedWithCP56Time2a_create(NULL,
+                                                                                 points[i].ioa,
+                                                                                 points[i].value,
+                                                                                 points[i].quality,
+                                                                                 &timestamp);
+        }
+        else if (points[i].iec_type == YC_IEC_TYPE_SCALED) {
+            io = (InformationObject)MeasuredValueScaledWithCP56Time2a_create(NULL,
+                                                                             points[i].ioa,
+                                                                             (int)points[i].value,
+                                                                             points[i].quality,
+                                                                             &timestamp);
+        }
+        else {
+            io = (InformationObject)MeasuredValueShortWithCP56Time2a_create(NULL,
+                                                                            points[i].ioa,
+                                                                            points[i].value,
+                                                                            points[i].quality,
+                                                                            &timestamp);
+        }
+
+        bool added = CS101_ASDU_addInformationObject(asdu, io);
+        InformationObject_destroy(io);
+
+        if (!added) {
+            LOG_WARN("asdu", "failed to add timed yc non-sequence object ioa=0x%04x index=%zu count=%zu type=%u",
+                     points[i].ioa, i, count, (unsigned)points[i].iec_type);
+            CS101_ASDU_destroy(asdu);
+            return false;
+        }
+    }
+
+    bool ok = IMasterConnection_sendASDU(connection, asdu);
+    CS101_ASDU_destroy(asdu);
+    return ok;
+}
+
 bool asdu_send_dd(IMasterConnection connection, CS101_AppLayerParameters params,
                   int oa, int ca, CS101_CauseOfTransmission cot, const DdPoint* point,
                   bool with_timestamp)

@@ -31,8 +31,8 @@
 #define ACTIVE_MAX_SOE_PER_FRAME 20
 #define GI_MAX_YC_SCALED_PER_FRAME 80
 #define GI_MAX_YC_SHORT_PER_FRAME 48
-#define ACTIVE_MAX_YC_SCALED_PER_FRAME 40
-#define ACTIVE_MAX_YC_SHORT_PER_FRAME 30
+#define ACTIVE_MAX_YC_TIME_SCALED_PER_FRAME 18
+#define ACTIVE_MAX_YC_TIME_SHORT_PER_FRAME 16
 #define CI_MAX_DD_PER_FRAME 48
 #define CI_MAX_DD_WITH_TIME_PER_FRAME 20
 #define TOTAL_CALL_DD_SEND_INTERVAL_MS 200
@@ -834,10 +834,10 @@ static void send_counter_call(Iec104Server* server, ClientContext* client, const
 
         client_context_wait_send_interval(client, GI_SEND_INTERVAL_MS);
         bool ok = asdu_send_dd_batch(connection, server->al_params, msg->oa, server->config.common_address,
-                                     CS101_COT_REQUESTED_BY_GENERAL_COUNTER,
+                                     CS101_COT_REQUEST,
                                      &snapshot.dd[i], batch, with_timestamp);
         log_batch_send_result("client", "counter call dd", msg->request_id,
-                              CS101_COT_REQUESTED_BY_GENERAL_COUNTER,
+                              CS101_COT_REQUEST,
                               snapshot.dd[i].ioa, snapshot.dd[i + batch - 1].ioa,
                               batch, ok);
         i += batch;
@@ -918,8 +918,8 @@ static void send_active_upload(Iec104Server* server, ClientContext* client, cons
     for (size_t i = 0; i < snapshot.yc_count && client_context_is_active(client);) {
         CS101_CauseOfTransmission cot = snapshot.yc[i].cot;
         YC_IECType iec_type = snapshot.yc[i].iec_type;
-        size_t max_batch = (iec_type == YC_IEC_TYPE_SCALED) ?
-                           ACTIVE_MAX_YC_SCALED_PER_FRAME : ACTIVE_MAX_YC_SHORT_PER_FRAME;
+        size_t max_batch = (iec_type == YC_IEC_TYPE_FLOAT) ?
+                           ACTIVE_MAX_YC_TIME_SHORT_PER_FRAME : ACTIVE_MAX_YC_TIME_SCALED_PER_FRAME;
         YcPoint points[GI_MAX_YC_SCALED_PER_FRAME];
         size_t batch = 0;
 
@@ -937,9 +937,9 @@ static void send_active_upload(Iec104Server* server, ClientContext* client, cons
         }
 
         client_context_wait_send_interval(client, BUSINESS_SEND_INTERVAL_MS);
-        bool ok = asdu_send_yc_batch_non_sequence(connection, server->al_params, 0,
-                                                  server->config.common_address,
-                                                  cot, points, batch);
+        bool ok = asdu_send_yc_time_batch_non_sequence(connection, server->al_params, 0,
+                                                       server->config.common_address,
+                                                       cot, points, batch);
         log_batch_send_result("client", "active yc", 0, cot,
                               points[0].ioa, points[batch - 1].ioa, batch, ok);
         i += batch;
