@@ -3650,7 +3650,7 @@ connectionHandlingThread(void* parameter)
         if (isAsduWaiting)
             socketTimeout = 0;
         else
-            socketTimeout = 100;
+            socketTimeout = 10; //100;
 
         if (Handleset_waitReady(self->handleSet, socketTimeout))
         {

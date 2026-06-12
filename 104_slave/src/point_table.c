@@ -216,6 +216,7 @@ bool point_table_init_demo(PointTable* table)
         table->dd[i].iec_type = DD_IEC_TYPE_COUNTER_CP56;
         table->dd[i].raw_type = RAW_TYPE_INT32;
         table->dd[i].value = 1000 + (int32_t)(100 * i);
+        table->dd[i].frozen_value = table->dd[i].value;
         table->dd[i].quality = IEC60870_QUALITY_GOOD;
         table->dd[i].seq = 0;
         set_cp56_time(&table->dd[i].freeze_time, initial_time_ms());

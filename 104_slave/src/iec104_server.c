@@ -796,7 +796,6 @@ static void send_counter_call(Iec104Server* server, ClientContext* client, const
 {
     IMasterConnection connection = client->connection;
     uint8_t frz = msg->qcc & 0xc0;
-    bool with_timestamp = frz != IEC60870_QCC_FRZ_READ;
 
     if (!client_context_is_active(client))
         return;
@@ -804,12 +803,13 @@ static void send_counter_call(Iec104Server* server, ClientContext* client, const
     if (frz == IEC60870_QCC_FRZ_FREEZE_WITHOUT_RESET ||
         frz == IEC60870_QCC_FRZ_FREEZE_WITH_RESET ||
         frz == IEC60870_QCC_FRZ_COUNTER_RESET) {
-        point_table_write_lock(server->table);
-        for (size_t i = 0; i < server->table->dd_count; i++) {
-            server->table->dd[i].timestamp_ms = Hal_getTimeInMs();
-            server->table->dd[i].seq++;
-            CP56Time2a_setFromMsTimestamp(&server->table->dd[i].freeze_time,
-                                          server->table->dd[i].timestamp_ms);
+          point_table_write_lock(server->table);
+          for (size_t i = 0; i < server->table->dd_count; i++) {
+              server->table->dd[i].frozen_value = server->table->dd[i].value;
+              server->table->dd[i].timestamp_ms = Hal_getTimeInMs();
+              server->table->dd[i].seq++;
+              CP56Time2a_setFromMsTimestamp(&server->table->dd[i].freeze_time,
+                                            server->table->dd[i].timestamp_ms);
             if (frz == IEC60870_QCC_FRZ_FREEZE_WITH_RESET ||
                 frz == IEC60870_QCC_FRZ_COUNTER_RESET)
                 server->table->dd[i].value = 0;
@@ -824,7 +824,7 @@ static void send_counter_call(Iec104Server* server, ClientContext* client, const
     }
 
     for (size_t i = 0; i < snapshot.dd_count && client_context_is_active(client);) {
-        size_t max_batch = with_timestamp ? CI_MAX_DD_WITH_TIME_PER_FRAME : CI_MAX_DD_PER_FRAME;
+        size_t max_batch = CI_MAX_DD_PER_FRAME;
         size_t batch = 1;
 
         while (i + batch < snapshot.dd_count &&
@@ -833,9 +833,15 @@ static void send_counter_call(Iec104Server* server, ClientContext* client, const
             batch++;
 
         client_context_wait_send_interval(client, GI_SEND_INTERVAL_MS);
+		#if 0 //后面调试到冻结的时候再放开
+          if (frz != IEC60870_QCC_FRZ_READ) {
+              for (size_t j = 0; j < batch; j++)
+                  snapshot.dd[i + j].value = snapshot.dd[i + j].frozen_value;
+          }
+		#endif
         bool ok = asdu_send_dd_batch(connection, server->al_params, msg->oa, server->config.common_address,
                                      CS101_COT_REQUEST,
-                                     &snapshot.dd[i], batch, with_timestamp);
+                                     &snapshot.dd[i], batch, false);
         log_batch_send_result("client", "counter call dd", msg->request_id,
                               CS101_COT_REQUEST,
                               snapshot.dd[i].ioa, snapshot.dd[i + batch - 1].ioa,

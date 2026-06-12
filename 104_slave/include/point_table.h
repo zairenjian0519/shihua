@@ -134,6 +134,7 @@ typedef struct {
     DD_IECType iec_type;
     RawDataType raw_type;
     int32_t value;
+    int32_t frozen_value;
     uint8_t quality;
     uint8_t seq;
     struct sCP56Time2a freeze_time;
